@@ -5,12 +5,13 @@
 package com.mycompany.revistas.rest.backend.usuario.querys;
 
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
-import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
-import com.mycompany.revistas.rest.backend.usuario.EnumRol;
+import com.mycompany.revistas.rest.backend.excepciones.DatosInvalidosException;
+import com.mycompany.revistas.rest.backend.usuario.TipoRol;
 import com.mycompany.revistas.rest.backend.usuario.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 /**
@@ -20,10 +21,8 @@ import java.util.Optional;
 public class UsuarioDB {
     private Usuario usuario;
     
-    public Optional<Usuario> obtenerDatosUsuario(String usuarioNombre) throws DatosUsuarioException{
-        usuario = null;
-        Optional<Usuario> c = Optional.of(usuario);
-        String statement = "select contraseña, rol from usuario where nombre = ?";
+    public Optional<Usuario> obtenerDatosUsuario(String usuarioNombre) throws DatosInvalidosException{
+        String statement = "select contraseña, rol, cartera from usuario where nombre = ?";
         try {
             Connection coneccion = PoolConnections.getInstance().getConnection();
             PreparedStatement st = coneccion.prepareStatement(statement);
@@ -32,11 +31,13 @@ public class UsuarioDB {
             if (result.next()) {
                 usuario = new Usuario();
                 usuario.setContraseña(result.getString("contraseña"));
-                usuario.setRol(EnumRol.valueOf(result.getString("rol")));
+                usuario.setRol(TipoRol.valueOf(result.getString("rol")));
+                usuario.setCartera(result.getDouble("cartera"));
+                return Optional.of(usuario);
             }
-        } catch (Exception e) {
-            throw new DatosUsuarioException("Nombre o Contraseña incorrectos");
+        } catch (SQLException e) {
+            throw new DatosInvalidosException();
         }
-        return c;
+        return Optional.empty();
     }
 }

@@ -1,4 +1,4 @@
-package com.mycompany.revistas.rest.resources;
+package com.mycompany.revistas.rest.resources.usuario;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

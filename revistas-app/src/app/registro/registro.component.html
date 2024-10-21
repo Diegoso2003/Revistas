@@ -5,7 +5,7 @@
         {{mensajeError}}
       </div>
       <h5 class="card-title text-center">Registro de cuenta</h5>
-      <form class="row g-3 justify-content-center" [formGroup]="usarioForm" novalidate (submit)="enviar($event)">
+      <form class="row g-3 justify-content-center" [formGroup]="usuarioForm" novalidate (submit)="enviar($event)">
         <div class="col-md-7">
           <label for="nombre" class="form-label">Nombre Usuario</label>
           <input type="text" class="form-control is-valid" [ngClass]="{'is-invalid' : hasErrors('nombre', 'required')}" formControlName="nombre">
@@ -62,7 +62,11 @@
           <button class="btn btn-outline-success">Crear cuenta</button>
         </div>
       </form>
+      <div class="col-12 text-center">
+        <a routerLink="/inicio" routerLinkActive="router-link-active"  class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesion</a>
+      </div>
     </div>
   </div>
 </div>
   
+<router-outlet></router-outlet>

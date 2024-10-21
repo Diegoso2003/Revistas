@@ -12,7 +12,8 @@ public class Usuario {
     private String nombre;
     private String contraseña;
     private String confirmacionContraseña;
-    private EnumRol rol;
+    private TipoRol rol;
+    private double cartera;
 
     /**
      * evalua si el usuario ha ingresado correctamente su nombre y contraseña
@@ -59,11 +60,11 @@ public class Usuario {
         this.contraseña = contraseña;
     }
 
-    public EnumRol getRol() {
+    public TipoRol getRol() {
         return rol;
     }
 
-    public void setRol(EnumRol rol) {
+    public void setRol(TipoRol rol) {
         this.rol = rol;
     }
 
@@ -75,6 +76,14 @@ public class Usuario {
         this.confirmacionContraseña = confirmacionContraseña;
     }
 
+    public double getCartera() {
+        return cartera;
+    }
+
+    public void setCartera(double cartera) {
+        this.cartera = cartera;
+    }
+    
     public void encriptarContraseña() {
         Encriptador encriptador = new Encriptador();
         this.contraseña = encriptador.encriptar(contraseña);

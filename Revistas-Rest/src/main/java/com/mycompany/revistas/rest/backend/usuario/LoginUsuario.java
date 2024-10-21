@@ -4,8 +4,9 @@
  */
 package com.mycompany.revistas.rest.backend.usuario;
 
+import com.mycompany.revistas.rest.backend.excepciones.DatosInvalidosException;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
-import com.mycompany.revistas.rest.backend.jwt_token.GeneradorToken;
+import com.mycompany.revistas.rest.backend.jwt_token.TokenJWT;
 import com.mycompany.revistas.rest.backend.jwt_token.TokenDTO;
 import com.mycompany.revistas.rest.backend.usuario.querys.UsuarioDB;
 import java.util.Optional;
@@ -30,13 +31,17 @@ public class LoginUsuario {
     }
 
     private void validarUsuario() throws DatosUsuarioException {
-        if (usuario == null || usuario.esValido()) {
-            throw new DatosUsuarioException("ingrese correctamente sus datos");
+        try {
+            if (this.usuario == null || !this.usuario.esValido()) {
+                throw new DatosUsuarioException("ingrese correctamente sus datos");
+            }
+            UsuarioDB b = new UsuarioDB();
+            Optional<Usuario> validacion = b.obtenerDatosUsuario(this.usuario.getNombre());
+            Usuario usuario = validacion.orElseThrow(() -> new DatosUsuarioException("Nombre o Contraseña Incorrectos"));
+            compararContraseña(usuario);
+        } catch (DatosInvalidosException ex) {
+            throw new DatosUsuarioException("Usuario o contraseña incorrectos");
         }
-        UsuarioDB b = new UsuarioDB();
-        Optional<Usuario> validacion = b.obtenerDatosUsuario(this.usuario.getNombre());
-        Usuario usuario = validacion.orElseThrow(() -> new DatosUsuarioException("Nombre o Contraseña Incorrectos"));
-        compararContraseña(usuario);
     }
 
     private void compararContraseña(Usuario usuario1) throws DatosUsuarioException {
@@ -50,7 +55,7 @@ public class LoginUsuario {
     
     
     private void generarTokens() {
-        GeneradorToken generador = new GeneradorToken();
+        TokenJWT generador = new TokenJWT();
         this.tokenjwt.setToken(generador.generateAccessToken(usuario.getNombre(), usuario.getRol().name()));
         this.tokenjwt.setTokenRefresh(generador.generateRefreshToken(usuario.getNombre(), usuario.getRol().name()));
     }

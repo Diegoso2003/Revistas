@@ -1,13 +1,13 @@
 export interface Usuario {
     nombre:     string;
     contraseña: string;
-    confirmacionContraseña: string;
-    rol:        TipoRol;
+    confirmacionContraseña: string | null;  
+    rol:        TipoRol | null;
 }
 
 export enum TipoRol {
-    ADMINISTRADOR = "administrador",
-    EDITOR = "editor",
-    LECTOR = "lector",
-    ANUNCIADOR = "anunciador",
+    ADMINISTRADOR = "ADMINISTRADOR",
+    EDITOR = "EDITOR",
+    LECTOR = "LECTOR",
+    ANUNCIADOR = "ANUNCIADOR",
 }

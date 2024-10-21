@@ -8,7 +8,7 @@ package com.mycompany.revistas.rest.backend.usuario;
  *
  * @author rafael-cayax
  */
-public enum EnumRol {    
+public enum TipoRol {    
     ADMINISTRADOR,
     EDITOR,
     LECTOR,

@@ -17,13 +17,13 @@ export class RegistroComponent {
 
   error: boolean = false;
   mensajeError: string = '';
-  usarioForm!: FormGroup;
+  usuarioForm!: FormGroup;
   usuario?: Usuario;
   private _usuarioServicios = inject(UsuarioServiciosService);
   private _router = inject(Router);
 
   constructor(private formBuilder: FormBuilder) {
-    this.usarioForm = this.formBuilder.group({
+    this.usuarioForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       contraseña: ['', [Validators.required, Validators.minLength(8)]],
       confirmacionContraseña: ['', [Validators.required,  Validators.minLength(8)]],
@@ -32,8 +32,8 @@ export class RegistroComponent {
   }
 
   sonDiferentes() {
-    const confirmacionContraseña = this.usarioForm.get('confirmacionContraseña');
-    const contraseña = this.usarioForm.get('contraseña');
+    const confirmacionContraseña = this.usuarioForm.get('confirmacionContraseña');
+    const contraseña = this.usuarioForm.get('contraseña');
     
     if (confirmacionContraseña?.touched && contraseña?.touched) {
         return confirmacionContraseña.value !== contraseña?.value;
@@ -43,15 +43,15 @@ export class RegistroComponent {
   }
 
   hasErrors(field: string, typeError: string) {
-    return this.usarioForm.get(field)?.hasError(typeError) && this.usarioForm.get(field)?.touched;
+    return this.usuarioForm.get(field)?.hasError(typeError) && this.usuarioForm.get(field)?.touched;
   }
 
   enviar(event: Event) {
     event.preventDefault();
     console.log("enviar");
-    if (this.usarioForm.valid){
+    if (this.usuarioForm.valid){
       console.log("valido");
-      const datos = this.usarioForm.value;
+      const datos = this.usuarioForm.value;
       this.usuario = {
         nombre: datos.nombre,
         contraseña: datos.contraseña,
@@ -60,7 +60,7 @@ export class RegistroComponent {
       };
       this._usuarioServicios.crearUsuario(this.usuario).subscribe({
         next: () => {
-          this.usarioForm.reset();
+          this.usuarioForm.reset();
           this._router.navigate(['/inicio']);
         },
         error: (error: any) => {

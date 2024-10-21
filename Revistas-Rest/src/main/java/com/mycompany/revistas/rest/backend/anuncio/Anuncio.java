@@ -4,6 +4,8 @@
  */
 package com.mycompany.revistas.rest.backend.anuncio;
 
+import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioDB;
+import java.io.InputStream;
 import java.time.LocalDate;
 
 /**
@@ -11,6 +13,7 @@ import java.time.LocalDate;
  * @author rafael-cayax
  */
 public class Anuncio {
+
     private int ID;
     private String nombreUsuario;
     private String urlVideo;
@@ -18,22 +21,43 @@ public class Anuncio {
     private LocalDate fecha;
     private TipoAnuncio tipo;
     private Vigencia vigencia;
-    private String estension;
-    private String imagen;
+    private String extension;
+    private InputStream imagen;
 
     /**
-     * evalua si el texto del anuncio es diferente a null o si tiene caracteres 
+     * evalua si el texto del anuncio es diferente a null o si tiene caracteres
      * o si le falta algun dato adicional
-     * @return 
+     *
+     * @return
      */
-    private boolean esAnuncioTextoValido(){
-        return textoAnuncio != null && textoAnuncio.length() != 0;
+    private boolean esAnuncioTextoValido() {
+        return textoAnuncio != null && !textoAnuncio.isBlank();
     }
 
-    private boolean esAnuncioTextoImagenValido(){
-        return esAnuncioTextoValido() && imagen != null;
+    private boolean esAnuncioTextoImagenValido() {
+        return esAnuncioTextoValido() && imagen != null && extension != null;
     }
-    
+
+    private boolean esAnuncioVideoValido() {
+        return urlVideo != null && !urlVideo.isBlank();
+    }
+
+    public boolean esAnuncioValido() {
+        if (tipo == null) {
+            return false;
+        }
+        switch (tipo) {
+            case TEXTO:
+                return esAnuncioTextoValido();
+
+            case TEXTO_E_IMAGEN:
+                return esAnuncioTextoImagenValido();
+
+            default:
+                return esAnuncioVideoValido();
+        }
+    }
+
     public int getID() {
         return ID;
     }
@@ -90,12 +114,47 @@ public class Anuncio {
         this.vigencia = vigencia;
     }
 
-    public String getEstension() {
-        return estension;
+    public String getExtension() {
+        return extension;
     }
 
-    public void setEstension(String estension) {
-        this.estension = estension;
+    public void setExtension(String estension) {
+        this.extension = estension;
     }
-    
+
+    public InputStream getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(InputStream imagen) {
+        this.imagen = imagen;
+    }
+
+    boolean esComprable(double cartera, PreciosDTO precios) {
+        double total = 0;
+        switch (tipo) {
+            case TEXTO:
+                total += precios.getTexto();
+                break;
+            case TEXTO_E_IMAGEN:
+                total += precios.getImagen();
+                break;
+            case VIDEO:
+                total += precios.getVideo();
+        }
+        switch (vigencia) {
+            case DIA_1:
+                total += precios.getDia1();
+                break;
+            case DIA_3:
+                total += precios.getDia3();
+                break;
+            case SEMANA_1:
+                total += precios.getSemana1();
+                break;
+            case SEMANA_2:
+                total += precios.getSemana2();
+        }
+        return cartera >= total;
+    }
 }

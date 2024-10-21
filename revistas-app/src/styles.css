@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+.centrar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: aquamarine;
+}
+
+.text-white {
+    color: white; /* Hace el texto blanco */
+  }
+  
+.navbar-black {
+    background-color: black;
+}
+
+.header-black {
+    a {
+        color: white; /* Hace el texto de los links blanco */
+    }
+    a:hover {
+        color: aquamarine; /* Hace el texto de los links aquamarine cuando se pasa el mouse */
+    }
+    a.active{
+        color: aquamarine;
+    }
+    background-color: teal; /* Hace el fondo negro */
+}

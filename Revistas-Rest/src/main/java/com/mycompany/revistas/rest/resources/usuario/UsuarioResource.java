@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.revistas.rest.resources;
+package com.mycompany.revistas.rest.resources.usuario;
 
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.jwt_token.TokenDTO;
@@ -23,7 +23,7 @@ import jakarta.ws.rs.core.Response;
 @Path("usuarios")
 public class UsuarioResource {
     
-    @Path("registro")
+    @Path("/registro")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response crearUsuario(Usuario usuario){
@@ -38,16 +38,16 @@ public class UsuarioResource {
                            .build();
         }
     }
-    
-    @Path("login")
+   
+    @Path("/login")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(Usuario usuario){
+    public Response iniciarSesion(Usuario usuario){
         try {
-            LoginUsuario log = new LoginUsuario(usuario);
-            TokenDTO tokens = log.iniciarSesion();
-            return Response.ok(tokens).build();
+            LoginUsuario user = new LoginUsuario(usuario);
+            TokenDTO token = user.iniciarSesion();
+            return Response.ok(token).build();
         } catch (DatosUsuarioException ex) {
             return Response.status(Response.Status.NOT_ACCEPTABLE)
                            .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")

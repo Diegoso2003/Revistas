@@ -17,8 +17,8 @@ import java.sql.Statement;
  *
  * @author rafael-cayax
  */
-public class AnuncioDB {
- 
+public class AnuncioRead {
+    
     public PreciosDTO obtenerPrecios() throws DatosUsuarioException{
         PreciosDTO precios= new PreciosDTO();
         String statement = "select texto, texto_imagen, video, dia_1, dia_3, semana_1, semana_2 from precio_de_anuncios";

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
@@ -29,6 +29,14 @@ export class UsuarioServiciosService {
     );
   }
 
+  obtenerCartera(): Observable<number> {
+    return this._http.get<number>(`${this.url}`, { headers: this.getAuthHeaders() });
+  }
+
+  actualizarCartera(cartera: number): Observable<number> {
+    return this._http.put<number>(`${this.url}`, { cartera }, { headers: this.getAuthHeaders() });
+  }
+
   private setToken(token: string) {
     localStorage.setItem(this.tokenKey, token);
   }
@@ -50,5 +58,14 @@ export class UsuarioServiciosService {
   logout() {
     localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/inicio']);
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.getToken();
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 }

@@ -4,7 +4,6 @@
  */
 package com.mycompany.revistas.rest.backend.anuncio;
 
-import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioDB;
 import java.io.InputStream;
 import java.time.LocalDate;
 
@@ -15,6 +14,7 @@ import java.time.LocalDate;
 public class Anuncio {
 
     private int ID;
+    private double precio;
     private String nombreUsuario;
     private String urlVideo;
     private String textoAnuncio;
@@ -130,6 +130,14 @@ public class Anuncio {
         this.imagen = imagen;
     }
 
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+    
     boolean esComprable(double cartera, PreciosDTO precios) {
         double total = 0;
         switch (tipo) {
@@ -155,6 +163,15 @@ public class Anuncio {
             case SEMANA_2:
                 total += precios.getSemana2();
         }
+        this.precio = total;
         return cartera >= total;
+    }
+
+    public String getInfoAnuncio() {
+        if(tipo == TipoAnuncio.TEXTO){
+            return this.textoAnuncio;
+        } else {
+            return this.urlVideo;
+        }
     }
 }

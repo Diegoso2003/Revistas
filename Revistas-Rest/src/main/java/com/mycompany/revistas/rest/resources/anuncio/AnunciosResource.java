@@ -7,7 +7,7 @@ package com.mycompany.revistas.rest.resources.anuncio;
 import com.mycompany.revistas.rest.backend.anuncio.AnuncioDTO;
 import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
 import com.mycompany.revistas.rest.backend.anuncio.ValidadorAnuncio;
-import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioDB;
+import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioRead;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -73,12 +73,20 @@ public class AnunciosResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response conseguirPrecios(){
         try {
-            AnuncioDB anuncio = new AnuncioDB();
+            AnuncioRead anuncio = new AnuncioRead();
             PreciosDTO precios = anuncio.obtenerPrecios();
             return Response.ok(precios).build();
         } catch (DatosUsuarioException ex) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response conseguirAnuncios(@Context HttpHeaders header){
+        String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+        
+        return Response.ok().build();
     }
     
     @Path("/videosytexto")

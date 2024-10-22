@@ -6,7 +6,6 @@ package com.mycompany.revistas.rest.backend.anuncio;
 
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.jwt_token.TokenJWT;
-import io.jsonwebtoken.Claims;
 import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;

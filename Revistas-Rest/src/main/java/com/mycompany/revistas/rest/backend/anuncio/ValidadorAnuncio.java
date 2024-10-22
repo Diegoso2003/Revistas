@@ -4,7 +4,7 @@
  */
 package com.mycompany.revistas.rest.backend.anuncio;
 
-import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioDB;
+import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioRead;
 import com.mycompany.revistas.rest.backend.excepciones.DatosInvalidosException;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.usuario.TipoRol;
@@ -74,7 +74,7 @@ public class ValidadorAnuncio {
 
     private void calcularPrecioAnuncio() throws DatosUsuarioException {
         double cartera = usuario.getCartera();
-        AnuncioDB precio = new AnuncioDB();
+        AnuncioRead precio = new AnuncioRead();
         if (!anuncio.esComprable(cartera, precio.obtenerPrecios())) {
             throw new DatosUsuarioException("insuficiente saldo en la cartera, ssldo actual: " + cartera);
         }

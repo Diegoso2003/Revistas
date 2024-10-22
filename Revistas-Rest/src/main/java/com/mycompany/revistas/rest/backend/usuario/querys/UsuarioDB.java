@@ -30,6 +30,7 @@ public class UsuarioDB {
             ResultSet result = st.executeQuery();
             if (result.next()) {
                 usuario = new Usuario();
+                usuario.setNombre(usuarioNombre);
                 usuario.setContraseña(result.getString("contraseña"));
                 usuario.setRol(TipoRol.valueOf(result.getString("rol")));
                 usuario.setCartera(result.getDouble("cartera"));
@@ -39,5 +40,21 @@ public class UsuarioDB {
             throw new DatosInvalidosException();
         }
         return Optional.empty();
+    }
+    
+    public void actualizarSaldo(double cartera, String usuario) throws DatosInvalidosException{
+        String statement = "update usuario set cartera = ? where nombre = ?";
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setDouble(1, cartera);
+            st.setString(2, usuario);
+            int x = st.executeUpdate();
+            if (x != 1) {
+                throw new DatosInvalidosException();
+            }
+        } catch (SQLException e) {
+            throw new DatosInvalidosException();
+        }
     }
 }

@@ -13,6 +13,20 @@ public enum Vigencia {
     DIA_3(3),
     SEMANA_1(7),
     SEMANA_2(14);
+
+    /**
+     * metodo para evaluar que vigencia tiene el anuncio
+     * @param dias los dias que estara activo
+     * @return la vigencia equivalente
+     */
+    public static Vigencia evaluarVigencia(int dias) {
+        for(Vigencia vigencia: Vigencia.values()){
+            if (vigencia.dias() == dias) {
+                return vigencia;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
     
     private final int dias;
 

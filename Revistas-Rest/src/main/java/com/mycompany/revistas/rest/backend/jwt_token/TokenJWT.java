@@ -5,6 +5,8 @@
 package com.mycompany.revistas.rest.backend.jwt_token;
 
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
+import com.mycompany.revistas.rest.backend.usuario.TipoRol;
+import com.mycompany.revistas.rest.backend.usuario.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -51,6 +53,17 @@ public class TokenJWT {
                 .build()
                 .parseClaimsJws(jwt)
                 .getBody();
+    }
+    
+    public Usuario obtenerUsuario(String token) throws DatosUsuarioException{
+        Usuario usuario = new Usuario();
+        if (token == null || !token.startsWith("Bearer")) {
+            throw new DatosUsuarioException("token no valido");
+        }
+        Claims datos = decodeJWT(token.substring(7));
+        usuario.setNombre(datos.getSubject());
+        usuario.setRol(TipoRol.valueOf(datos.get("rol", String.class)));
+        return usuario;
     }
     
     public String obtenerNombreUsuario(String token) throws DatosUsuarioException{

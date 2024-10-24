@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Precios } from '../interfaces/precios';
 import { AnuncioServiciosService } from '../servicios/anuncio-servicios.service';
-import { Anuncio } from '../interfaces/anuncio';
+import { AnuncioCreate } from '../interfaces/anunciocreate';
 
 @Component({
   selector: 'app-form-compra-anuncio',
@@ -26,7 +26,7 @@ export class FormCompraAnuncioComponent implements OnInit {
   precios!: Precios;
   tipoPrecio: number = 0;
   vigenciaPrecio: number = 0;
-  anuncio!: Anuncio;
+  anuncio!: AnuncioCreate;
   precioTotal = this.tipoPrecio + this.vigenciaPrecio;
   private _anuncioServices = inject(AnuncioServiciosService);
 

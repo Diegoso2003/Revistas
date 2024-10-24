@@ -4,6 +4,10 @@
  */
 package com.mycompany.revistas.rest.backend.anuncio;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import java.io.InputStream;
 import java.time.LocalDate;
 
@@ -13,6 +17,8 @@ import java.time.LocalDate;
  */
 public class Anuncio {
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private int ID;
     private double precio;
     private String nombreUsuario;

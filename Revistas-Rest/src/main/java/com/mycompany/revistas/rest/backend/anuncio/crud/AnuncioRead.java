@@ -4,13 +4,20 @@
  */
 package com.mycompany.revistas.rest.backend.anuncio.crud;
 
+import com.mycompany.revistas.rest.backend.anuncio.Anuncio;
+import com.mycompany.revistas.rest.backend.anuncio.FiltroAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
+import com.mycompany.revistas.rest.backend.anuncio.TipoAnuncio;
+import com.mycompany.revistas.rest.backend.anuncio.Vigencia;
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -39,5 +46,37 @@ public class AnuncioRead {
             throw new DatosUsuarioException("No se pudo guardar el anuncio pruebe mas tarde");
         }
         return precios;
+    }
+
+    public List<Anuncio> obtenerAnuncios(String statement, boolean admin, String nombre) throws DatosUsuarioException {
+        List<Anuncio> anuncios = new ArrayList<>();
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setBoolean(1, true);
+            if (!admin) {
+                st.setString(2, nombre);
+            }
+            ResultSet result = st.executeQuery();
+            while(result.next()){
+                Anuncio anuncio = new Anuncio();
+                anuncio.setID(result.getInt("ID"));
+                anuncio.setNombreUsuario(result.getString("nombre_usuario"));
+                anuncio.setPrecio(result.getDouble("precio"));
+                anuncio.setFecha(result.getDate("fecha_pago").toLocalDate());
+                anuncio.setTextoAnuncio(result.getString("texto"));
+                anuncio.setTipo(TipoAnuncio.valueOf(result.getString("tipo_anuncio")));
+                anuncio.setVigencia(Vigencia.evaluarVigencia(result.getInt("vigencia")));
+                FiltroAnuncio filtro = new FiltroAnuncio(anuncio);
+                if (filtro.esVigente()) {
+                    anuncios.add(anuncio);
+                } else{
+                    AnuncioUpdate delete = new AnuncioUpdate();
+                    delete.desactivarAnuncio(anuncio.getID());
+                }
+            }
+        } catch (SQLException e) {
+        }
+        return anuncios;
     }
 }

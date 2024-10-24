@@ -4,7 +4,9 @@
  */
 package com.mycompany.revistas.rest.resources.anuncio;
 
+import com.mycompany.revistas.rest.backend.anuncio.Anuncio;
 import com.mycompany.revistas.rest.backend.anuncio.AnuncioDTO;
+import com.mycompany.revistas.rest.backend.anuncio.AnunciosList;
 import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
 import com.mycompany.revistas.rest.backend.anuncio.ValidadorAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioRead;
@@ -21,6 +23,9 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.io.InputStream;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -84,9 +89,14 @@ public class AnunciosResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response conseguirAnuncios(@Context HttpHeaders header){
-        String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
-        
-        return Response.ok().build();
+        try {
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            AnunciosList anuncios = new AnunciosList();
+            List<Anuncio> listado = anuncios.conseguirAnuncios(token);
+            return Response.ok(listado).build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
     }
     
     @Path("/videosytexto")

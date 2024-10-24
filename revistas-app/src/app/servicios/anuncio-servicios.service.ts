@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Precios } from '../interfaces/precios';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Anuncio } from '../interfaces/anuncio';
+import { Anuncio } from '../interfaces/anunciocreate';
 
 @Injectable({
   providedIn: 'root'

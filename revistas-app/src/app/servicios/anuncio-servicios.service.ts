@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Precios } from '../interfaces/precios';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Anuncio } from '../interfaces/anunciocreate';
+import { AnuncioCreate } from '../interfaces/anunciocreate';
+import { Anuncio } from '../interfaces/anuncio';
 
 @Injectable({
   providedIn: 'root'
@@ -18,19 +19,9 @@ export class AnuncioServiciosService {
     return this._http.get<Precios>(`${this.url}/precios`);
   }
 
-  uploadFile(dataToSend: Anuncio): Observable<any> {
+  uploadFile(dataToSend: FormData): Observable<any> {
     const headers = this.getAuthHeaders();
-    let formData: FormData = new FormData();
-    formData.append('fileObject', dataToSend.imagen);
-    if (dataToSend.imagen) {
-      formData.append('fileObject', dataToSend.imagen.name);
-    }
-    formData.append('video', dataToSend.video);
-    formData.append('fecha', dataToSend.fecha);
-    formData.append('texto', dataToSend.texto);
-    formData.append('tipo', dataToSend.tipo);
-    formData.append('vigencia', dataToSend.vigencia);
-    return this._http.post(`${this.url}/subirAnuncio`, formData, { headers });
+    return this._http.post(`${this.url}/subirAnuncio`, dataToSend, { headers });
   }
 
   private getToken(): string | null {
@@ -44,5 +35,13 @@ export class AnuncioServiciosService {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
     return headers;
+  }
+
+  obtenerAnuncios(): Observable<Anuncio[]> {
+    return this._http.get<Anuncio[]>(`${this.url}`, { headers: this.getAuthHeaders() });
+  }
+
+  obtenerImagen(id: number): Observable<any> {
+    return this._http.get(`${this.url}/imagen/${id}`, { responseType: 'blob' });
   }
 }

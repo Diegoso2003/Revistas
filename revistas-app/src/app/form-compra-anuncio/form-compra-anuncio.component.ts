@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, OnInit, ɵINPUT_SIGNAL_BRAND_WRITE_TYPE } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -80,7 +80,7 @@ export class FormCompraAnuncioComponent implements OnInit {
       textoControl?.enable();
       imagenControl?.disable();
       videoControl?.disable();
-    } else if (value === 'IMAGEN') {
+    } else if (value === 'TEXTO_E_IMAGEN') {
       this.tipoPrecio = this.precios.imagen;
       textoControl?.setValidators([Validators.required]);
       imagenControl?.setValidators([Validators.required]);
@@ -115,21 +115,43 @@ export class FormCompraAnuncioComponent implements OnInit {
     }
     this.precioTotal = this.tipoPrecio + this.vigenciaPrecio;
   }
-
+  onFileSelected(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+  if (fileInput.files && fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    this.anuncioForm.patchValue({
+      imagen: file, // Aquí asegúrate de que 'imagen' almacene el archivo en sí
+    });
+    this.anuncioForm.get('imagen')?.updateValueAndValidity();
+  }
+  }
   enviar(event: Event) {
     event.preventDefault();
     if (this.anuncioForm.valid) {
-      this.anuncio = this.anuncioForm.value as Anuncio;
-      console.log('valido');
-      this._anuncioServices.uploadFile(this.anuncio).subscribe({
+      const formData = new FormData();
+      this.anuncio = this.anuncioForm.value as AnuncioCreate;
+      formData.append('tipo', this.anuncio.tipo);
+      formData.append('vigencia', this.anuncio.vigencia);
+      formData.append('fecha', this.anuncio.fecha);
+      formData.append('texto', this.anuncio.texto);
+
+      const fileObject = this.anuncioForm.get('imagen')?.value;
+      if (fileObject) {
+        formData.append('fileObject', fileObject, fileObject.name);
+      }
+      this._anuncioServices.uploadFile(formData).subscribe({
         next: () => {
           this.anuncioForm.reset();
           this.exito = true;
+          this.error = false;
           this.mensajeExito = 'Anuncio subido con éxito.';
         },
         error: (error: any) => {
           this.error = true;
+          this.exito = false;
+          console.log(error);
           console.error(error);
+          console.log(error.error.mensaje);
           this.mensajeError =
             error.error.mensaje || 'Ocurrió un error al subir el anuncio.';
         },

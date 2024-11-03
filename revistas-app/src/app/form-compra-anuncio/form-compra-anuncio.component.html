@@ -22,6 +22,7 @@
         [formGroup]="anuncioForm"
         novalidate
         (submit)="enviar($event)"
+        enctype="multipart/form-data"
       >
         <div class="col-md-12">
           <label for="tipo" class="form-label">Tipo de anuncio</label>
@@ -32,7 +33,7 @@
             formControlName="tipo"
           >
             <option value="TEXTO">Texto</option>
-            <option value="IMAGEN">Texto e imagen</option>
+            <option value="TEXTO_E_IMAGEN">Texto e imagen</option>
             <option value="VIDEO">Video</option>
           </select>
           @if(hasErrors('tipo', 'required')){
@@ -99,8 +100,10 @@
           <input
             type="file"
             class="form-control"
-            id="imagen"
+            id="fileObject"
             formControlName="imagen"
+            (change)="onFileSelected($event)"
+            accept="image/*"
           />
           <div
             *ngIf="hasErrors('imagen', 'required')"

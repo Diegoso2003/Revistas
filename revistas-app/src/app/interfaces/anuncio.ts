@@ -2,8 +2,8 @@ import { TipoAnuncio, Vigencia } from "./anunciocreate";
 
 export interface Anuncio {
     imagen: File;
-    texto: string;
-    video: string;
+    textoAnuncio: string;
+    urlVideo: string;
     tipo: TipoAnuncio;
     vigencia: Vigencia;
     fecha: Date;

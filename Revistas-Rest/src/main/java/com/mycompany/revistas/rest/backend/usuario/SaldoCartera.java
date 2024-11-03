@@ -25,6 +25,12 @@ public class SaldoCartera {
         this.token = token;
     }
     
+    /**
+     * metodo para obtenrl los datos del usuario 
+     * @return sl usuario
+     * @throws DatosUsuarioException en que caso de que el token sea invalido
+     * o no se encuentra al usaurio
+     */
     public Usuario obtenerDatos() throws DatosUsuarioException{
         try {
             TokenJWT t = new TokenJWT();
@@ -38,6 +44,12 @@ public class SaldoCartera {
         }
     }
     
+    /**
+     * recibe la cantidad a acreditar de la cartera
+     * @param cartera cantidad a acreditar
+     * @return el precio de la cantidad
+     * @throws DatosUsuarioException 
+     */
     public double recargarCartera(Cartera cartera) throws DatosUsuarioException{
         this.cartera = cartera;
         validarCantidad();
@@ -46,12 +58,20 @@ public class SaldoCartera {
         return total;
     }
 
+    /**
+     * metodo para validar la cartera
+     * @throws DatosUsuarioException 
+     */
     private void validarCantidad() throws DatosUsuarioException {
         if (!cartera.esValida()) {
             throw new DatosUsuarioException("Porfavor ingrese un valor valido");
         }
     }
 
+    /**
+     * metodo para validar al usuario
+     * @throws DatosUsuarioException 
+     */
     private void validarUsuario() throws DatosUsuarioException {
         usuario = obtenerDatos();
         TipoRol rol = usuario.getRol();

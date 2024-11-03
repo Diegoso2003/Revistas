@@ -19,12 +19,12 @@ public class Anuncio {
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate fecha;
     private int ID;
     private double precio;
     private String nombreUsuario;
     private String urlVideo;
     private String textoAnuncio;
-    private LocalDate fecha;
     private TipoAnuncio tipo;
     private Vigencia vigencia;
     private String extension;
@@ -41,7 +41,7 @@ public class Anuncio {
     }
 
     private boolean esAnuncioTextoImagenValido() {
-        return esAnuncioTextoValido() && imagen != null && extension != null;
+        return esAnuncioTextoValido() && imagen != null;
     }
 
     private boolean esAnuncioVideoValido() {
@@ -143,7 +143,7 @@ public class Anuncio {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
-    
+
     boolean esComprable(double cartera, PreciosDTO precios) {
         double total = 0;
         switch (tipo) {
@@ -173,11 +173,4 @@ public class Anuncio {
         return cartera >= total;
     }
 
-    public String getInfoAnuncio() {
-        if(tipo == TipoAnuncio.TEXTO){
-            return this.textoAnuncio;
-        } else {
-            return this.urlVideo;
-        }
-    }
 }

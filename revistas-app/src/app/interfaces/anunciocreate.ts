@@ -9,7 +9,7 @@ export interface AnuncioCreate {
 
 export enum TipoAnuncio {
     TEXTO = 'TEXTO',
-    IMAGEN = 'IMAGEN',
+    TEXTO_E_IMAGEN = 'TEXTO_E_IMAGEN',
     VIDEO = 'VIDEO',
 }
 

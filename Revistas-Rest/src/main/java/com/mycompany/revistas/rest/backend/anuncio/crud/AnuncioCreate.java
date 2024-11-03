@@ -42,8 +42,8 @@ public class AnuncioCreate {
     }
 
     private void subirAnuncioTextoOVideo() throws DatosUsuarioException {
-        String statement = "insert into anuncio(nombre_usuario, precio, fecha_pago, tipo_anuncio, vigencia, texto) values"
-                + "(?, ?, ?, ?, ?, ?)";
+        String statement = "insert into anuncio(nombre_usuario, precio, fecha_pago, tipo_anuncio, vigencia, texto, url_video) values"
+                + "(?, ?, ?, ?, ?, ?, ?)";
         Connection coneccion = null;
         try {
             coneccion = PoolConnections.getInstance().getConnection();
@@ -55,7 +55,8 @@ public class AnuncioCreate {
             st.setDate(3, fecha);
             st.setString(4, anuncio.getTipo().name());
             st.setInt(5, anuncio.getVigencia().dias());
-            st.setString(6, anuncio.getInfoAnuncio());
+            st.setString(6, anuncio.getTextoAnuncio());
+            st.setString(7, anuncio.getUrlVideo());
             st.executeUpdate();
             actualizarUsuario(coneccion);
         } catch (SQLException | DatosInvalidosException e) {
@@ -63,7 +64,7 @@ public class AnuncioCreate {
             coneccion.rollback();
             } catch (SQLException ex) {
             }
-            throw new DatosUsuarioException("ingrese correctamente los datos del anuncio");
+            throw new DatosUsuarioException("ingrese correctamente los datos del anuncio" + e.toString());
         }
     }
 
@@ -90,7 +91,7 @@ public class AnuncioCreate {
                 coneccion.rollback();
             } catch (Exception ex) {
             }
-            throw new DatosUsuarioException("ingrese correctamente los datos del anuncio");
+            throw new DatosUsuarioException("ingrese correctamente los datos del anuncio" + e.toString());
         }
     }
 

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg header-black">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Revistas en linea</a>
+    <a class="navbar-brand">Revistas en linea</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,12 +12,24 @@
       </li>
       <li class="nav-item text-center">
         <img src="/imagenes/card-list.svg" alt="revista" width="30" height="30">
-      <a class="nav-link" href="#">Gestion de Anuncios</a>
+      <a routerLink="/anunciador/anunciosVigentes"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link" >Gestion de Anuncios</a>
       </li>
       <li class="nav-item text-center">
         <img src="/imagenes/cash-stack.svg" alt="revista" width="30" height="30">
       <a routerLink="/anunciador/recargarSaldo" routerLinkActive="active" class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         Recarga Cartera
+      </a>
+      </li>
+      <li class="nav-item text-center">
+        <img src="/imagenes/person-circle.svg" alt="revista" width="30" height="30">
+      <a routerLink="" routerLinkActive="active" class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Actualizar Perfil
+      </a>
+      </li>
+      <li class="nav-item text-center">
+        <img src="/imagenes/box-arrow-in-right.svg" alt="revista" width="30" height="30">
+      <a routerLink="" routerLinkActive="active" class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Cerrar sesion
       </a>
       </li>
     </ul>

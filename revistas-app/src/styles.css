@@ -2,10 +2,10 @@
 .centrar{
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
     width: 100%;
     background-color: aquamarine;
+    padding-top: 10px;
+    margin-bottom: auto;
 }
 
 .text-white {
@@ -21,10 +21,24 @@
         color: white; /* Hace el texto de los links blanco */
     }
     a:hover {
-        color: aquamarine; /* Hace el texto de los links aquamarine cuando se pasa el mouse */
+        color: brown; /* Hace el texto de los links aquamarine cuando se pasa el mouse */
     }
     a.active{
         color: aquamarine;
     }
     background-color: teal; /* Hace el fondo negro */
+}
+
+.reporte {
+    ul {
+        background-color: teal;
+    }
+
+    a:hover {
+        background-color: aqua;
+    }
+}
+
+html{
+    background-color: aquamarine;
 }

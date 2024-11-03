@@ -1,1 +1,9 @@
-<p>anuncios-vigentes-vista works!</p>
+<div class="row gap-2">
+  @for(anuncio of anunciosVigentes; track $index){
+  <app-anuncio-vista [anuncio]="anuncio"></app-anuncio-vista>
+  } @empty {
+  <div class="centrar">
+    <h2>No hay anuncios vigentes</h2>
+  </div>
+  }
+</div>

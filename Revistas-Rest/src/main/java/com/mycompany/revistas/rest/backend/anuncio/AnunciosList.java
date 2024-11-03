@@ -39,11 +39,11 @@ public class AnunciosList {
                 statement = "select * from anuncio where estado = ? and nombre_usuario = ?";
                 break;
             default:
-                throw new DatosUsuarioException();
+                throw new DatosUsuarioException("no tiene permisos");
         }
     }
 
-    private void listarAnuncios() {
+    private void listarAnuncios() throws DatosUsuarioException {
         AnuncioRead datos = new AnuncioRead();
         this.anuncios = datos.obtenerAnuncios(statement, admin, usuario.getNombre());
     }

@@ -4,6 +4,7 @@
  */
 package com.mycompany.revistas.rest.backend.anuncio;
 
+import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioCreate;
 import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioRead;
 import com.mycompany.revistas.rest.backend.excepciones.DatosInvalidosException;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
@@ -65,10 +66,10 @@ public class ValidadorAnuncio {
             anuncio.setExtension(datosAnuncio.getInfo().getMediaType().toString());
             anuncio.setImagen(datosAnuncio.getImagen());
             if (!anuncio.esAnuncioValido()) {
-                throw new DatosUsuarioException("porfavor ingrese los datos correctamente");
+                throw new DatosUsuarioException("porfavor ingrese los datos correctamente" + (anuncio.getImagen() == null));
             }
         } catch (DateTimeParseException  | NullPointerException | IllegalArgumentException e) {
-            throw new DatosUsuarioException("Por favor ingrese los datos correctamente");
+            throw new DatosUsuarioException("Por favor ingrese los datos correctamente" + e.toString());
         }
     }
 
@@ -80,8 +81,9 @@ public class ValidadorAnuncio {
         }
     }
 
-    private void cargarAnuncio() {
-        
+    private void cargarAnuncio() throws DatosUsuarioException {
+        AnuncioCreate a = new AnuncioCreate(anuncio);
+        a.subirAnuncio(usuario);
     }
     
     

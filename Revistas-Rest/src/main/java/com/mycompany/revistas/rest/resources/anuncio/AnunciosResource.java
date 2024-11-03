@@ -10,19 +10,26 @@ import com.mycompany.revistas.rest.backend.anuncio.AnunciosList;
 import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
 import com.mycompany.revistas.rest.backend.anuncio.ValidadorAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioRead;
+import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioUpdate;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.StreamingOutput;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +74,8 @@ public class AnunciosResource {
             anuncio.subirAnuncio();
             return Response.ok().build();
         } catch (DatosUsuarioException ex) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE)
+            System.out.println(ex);
+            return Response.status(Response.Status.BAD_REQUEST)
                            .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
                            .build();
         }
@@ -95,23 +103,40 @@ public class AnunciosResource {
             List<Anuncio> listado = anuncios.conseguirAnuncios(token);
             return Response.ok(listado).build();
         } catch (DatosUsuarioException ex) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .build();
         }
     }
     
-    @Path("/videosytexto")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response subirAnuncioTextoVideo(){
-        
-        return Response.ok().build();
+    @Path("{id}")
+    @PATCH
+    public Response desactivarAnuncio(@PathParam("id") int id){
+        try {
+            AnuncioUpdate a = new AnuncioUpdate();
+            a.desactivarAnuncio(id);
+            return Response.ok().build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .build();
+        }
     }
     
-    @Path("/imagen")
-    @PUT
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response actualizarArchivo(){
-        
-        return Response.ok().build();
+    @Path("/imagen/{id}")
+    @GET
+    public Response conseguirImagen(@PathParam("id") int id){
+        AnuncioRead anuncio = new AnuncioRead();
+        InputStream stream = anuncio.conseguirImagen(id);
+        StreamingOutput fileStream = (java.io.OutputStream output) -> {
+            try {
+                byte[] data = stream.readAllBytes();
+                output.write(data);
+                output.flush();
+            } catch (Exception e) {
+                throw new WebApplicationException("File Not Found !!");
+            }
+        };
+        return Response.ok(fileStream, MediaType.APPLICATION_OCTET_STREAM).build();
     }
 }

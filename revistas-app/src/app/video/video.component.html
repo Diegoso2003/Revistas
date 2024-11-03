@@ -1,0 +1,18 @@
+<iframe
+      *ngIf="isYouTubeUrl(url)"
+      [src]="safeUrl"
+      style="width: 100%; height: 315px;"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    <iframe
+        *ngIf="isGoogleDriveUrl(url)"
+        [src]="safeUrl"
+        style="width: 100%; height: 315px;"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        loop
+        onload="this.contentWindow.document.querySelector('video').setAttribute('loop', ''); this.contentWindow.document.querySelector('video').setAttribute('controls', 'false');">
+    </iframe>

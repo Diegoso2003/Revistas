@@ -11,6 +11,7 @@ import com.mycompany.revistas.rest.backend.anuncio.TipoAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.Vigencia;
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
+import com.mycompany.revistas.rest.backend.usuario.Usuario;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -97,5 +98,32 @@ public class AnuncioRead {
         } catch (Exception e) {
         }
         return null;
+    }
+    
+    public Anuncio conseguirAnuncioPorID(int anuncio, Usuario usuario){
+        String statement = "select * from anuncio where estado = ? and ID = ? and nombre_usuario = ?";
+        Anuncio anuncio2 = null;
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setBoolean(1, true);
+            st.setInt(2, anuncio);
+            st.setString(3, usuario.getNombre());
+            ResultSet result = st.executeQuery();
+            
+            if (result.next()) {
+                anuncio2 = new Anuncio();
+                anuncio2.setID(result.getInt("ID"));
+                anuncio2.setNombreUsuario(result.getString("nombre_usuario"));
+                anuncio2.setPrecio(result.getDouble("precio"));
+                anuncio2.setFecha(result.getDate("fecha_pago").toLocalDate());
+                anuncio2.setTipo(TipoAnuncio.valueOf(result.getString("tipo_anuncio")));
+                anuncio2.setTextoAnuncio(result.getString("texto"));
+                anuncio2.setUrlVideo(result.getString("url_video"));
+                anuncio2.setVigencia(Vigencia.evaluarVigencia(result.getInt("vigencia")));
+            }
+        } catch (Exception e) {
+        }
+        return anuncio2;
     }
 }

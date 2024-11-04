@@ -8,6 +8,15 @@
     padding-bottom: 10px;
 }
 
+.centrar2{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .text-white {
     color: white; /* Hace el texto blanco */
   }

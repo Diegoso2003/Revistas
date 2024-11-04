@@ -16,7 +16,6 @@ import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -163,7 +162,7 @@ public class AnunciosResource {
             @FormDataParam("fileObject") FormDataBodyPart bodyPart,
             @FormDataParam("fileObject") InputStream uploadedInputStream,
             @FormDataParam("fileObject") FormDataContentDisposition fileDetails,
-            @FormDataParam("id") int id){
+            @FormDataParam("id") String id){
         try {
             String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
             ActualizarAnuncio a = new ActualizarAnuncio(token, uploadedInputStream, id);
@@ -186,6 +185,24 @@ public class AnunciosResource {
             a.actualizarTexto();
             return Response.ok().build();
         } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .build();
+        }
+    }
+    
+    @Path("/obtenerAnuncio/{id}")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response conseguirAnuncio(@Context HttpHeaders header, @PathParam("id") int id){
+        try {
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            AnunciosList a = new AnunciosList();
+            Anuncio anuncio2 = a.conseguirAnuncioPorID(token, id);
+            return Response.ok(anuncio2).build();
+        } catch (DatosUsuarioException ex) {
+            System.out.println(ex);
             return Response.status(Response.Status.NOT_ACCEPTABLE)
                            .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
                            .build();

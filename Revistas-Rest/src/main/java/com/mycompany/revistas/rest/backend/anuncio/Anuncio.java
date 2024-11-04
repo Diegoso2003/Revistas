@@ -20,7 +20,7 @@ public class Anuncio {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate fecha;
-    private int ID;
+    private int id;
     private double precio;
     private String nombreUsuario;
     private String urlVideo;
@@ -65,11 +65,11 @@ public class Anuncio {
     }
 
     public int getID() {
-        return ID;
+        return id;
     }
 
     public void setID(int ID) {
-        this.ID = ID;
+        this.id = ID;
     }
 
     public String getNombreUsuario() {

@@ -47,4 +47,11 @@ public class AnunciosList {
         AnuncioRead datos = new AnuncioRead();
         this.anuncios = datos.obtenerAnuncios(statement, admin, usuario.getNombre());
     }
+    
+    public Anuncio conseguirAnuncioPorID(String token, int anuncio) throws DatosUsuarioException{
+        TokenJWT t = new TokenJWT();
+        Usuario usuario = t.obtenerUsuario(token);
+        AnuncioRead a = new AnuncioRead();
+        return a.conseguirAnuncioPorID(anuncio, usuario);
+    }
 }

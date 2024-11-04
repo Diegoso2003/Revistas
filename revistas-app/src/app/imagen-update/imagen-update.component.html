@@ -1,1 +1,35 @@
-<p>imagen-update works!</p>
+
+@if(error){
+      <h5 class="card-title">Error</h5>
+      <p class="card-text">{{ mensaje }}</p>
+} 
+@if(exito){
+    <p class="card-text">{{ mensajeExito }}</p>
+}   
+<form
+class="row g-3 justify-content-center"
+        [formGroup]="ImagenForm"
+        novalidate
+        (submit)="enviar($event)"
+        enctype="multipart/form-data">
+        <div class="col-md-12">
+            <label for="imagen" class="form-label">Imagen del anuncio</label>
+            <input
+              type="file"
+              class="form-control"
+              id="fileObject"
+              formControlName="imagen"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+            />
+            <div
+              *ngIf="hasErrors('imagen', 'required')"
+              id="validationServer03Feedback"
+              class="invalid-feedback"
+            >
+              Por favor seleccione una imagen para el anuncio.
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Actualizar Imagen</button>
+</form>

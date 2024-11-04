@@ -1,1 +1,20 @@
-<p>anuncio-update works!</p>
+<div class="centrar">
+  <div class="card">
+    <div class="card-body">
+        <div style="background-color: white;">
+      <app-anuncio-vista
+        [anuncio]="anuncio"
+        [editar]="true"
+      ></app-anuncio-vista>
+    </div>
+      @switch (anuncio.tipo) { @case('TEXTO'){
+      <app-texto-update [ID]="anuncio.id"></app-texto-update>
+      } @case('TEXTO_E_IMAGEN'){
+      <app-texto-update [ID]="anuncio.id"></app-texto-update>
+      <app-imagen-update [ID]="anuncio.id"></app-imagen-update>
+      } @case('VIDEO'){
+      <app-video-update [id]="anuncio.id"></app-video-update>
+      } }
+    </div>
+  </div>
+</div>

@@ -24,10 +24,10 @@ public class ActualizarAnuncio {
         this.token = token;
     }
 
-    public ActualizarAnuncio(String token, InputStream imagen, int id) {
+    public ActualizarAnuncio(String token, InputStream imagen, String id) {
         this.token = token;
         this.anuncio = new Anuncio();
-        this.anuncio.setID(id);
+        this.anuncio.setID(Integer.valueOf(id));
         this.anuncio.setImagen(imagen);
     }
     

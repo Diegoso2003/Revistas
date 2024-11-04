@@ -38,7 +38,7 @@ export const routes: Routes = [
                 component: CarteraComponent
             },
             {
-                path: 'editarAnuncio/:codigo',
+                path: 'editarAnuncio/:id',
                 title: 'Actualizar Anuncio',
                 component: AnuncioUpdateComponent
             },

@@ -3,7 +3,7 @@ import { Anuncio } from '../interfaces/anuncio';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { TipoAnuncioPipe } from '../pipes/tipo-anuncio.pipe';
 import { VigenciaPipe } from '../pipes/vigencia.pipe';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { VideoComponent } from '../video/video.component';
 import { ImagenComponent } from "../imagen/imagen.component";
 import { AnuncioServiciosService } from '../servicios/anuncio-servicios.service';
@@ -11,7 +11,7 @@ import { AnuncioServiciosService } from '../servicios/anuncio-servicios.service'
 @Component({
   selector: 'app-anuncio-vista',
   standalone: true,
-  imports: [CurrencyPipe, TipoAnuncioPipe, VigenciaPipe, RouterLink, VideoComponent, ImagenComponent, NgClass],
+  imports: [CurrencyPipe, TipoAnuncioPipe, VigenciaPipe, RouterLink, VideoComponent, ImagenComponent, NgClass, RouterOutlet],
   templateUrl: './anuncio-vista.component.html',
   styleUrl: './anuncio-vista.component.css'
 })

@@ -48,4 +48,23 @@ export class AnuncioServiciosService {
   cancelarAnuncio(id: number): Observable<any> {
     return this._http.delete(`${this.url}/${id}`, { headers: this.getAuthHeaders() });
   }
+
+  obtenerAnuncio(id: number): Observable<Anuncio> {
+    return this._http.get<Anuncio>(`${this.url}/obtenerAnuncio/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  actualizarImagen(dataToSend: FormData): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this._http.put(`${this.url}/imagen`, dataToSend, { headers });
+  }
+
+  actualizarTexto(anuncio: Anuncio): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this._http.put(`${this.url}/texto`, anuncio ,{ headers });
+  }
+
+  actualizarVideo(anuncio: Anuncio): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this._http.put(`${this.url}/video`, anuncio, { headers });
+  }
 }

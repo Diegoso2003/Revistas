@@ -115,6 +115,7 @@ export class FormCompraAnuncioComponent implements OnInit {
     }
     this.precioTotal = this.tipoPrecio + this.vigenciaPrecio;
   }
+
   onFileSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
   if (fileInput.files && fileInput.files.length > 0) {
@@ -125,6 +126,7 @@ export class FormCompraAnuncioComponent implements OnInit {
     this.anuncioForm.get('imagen')?.updateValueAndValidity();
   }
   }
+  
   enviar(event: Event) {
     event.preventDefault();
     if (this.anuncioForm.valid) {

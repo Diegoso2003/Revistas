@@ -1,1 +1,31 @@
-<p>texto-update works!</p>
+@if(error){
+    <h5 class="card-title">Error</h5>
+    <p class="card-text">{{ mensaje }}</p>
+}
+@if(exito){
+    <p class="card-text">{{ mensajeExito }}</p>
+}
+
+<form
+class="row g-3 justify-content-center"
+        [formGroup]="textoForm"
+        novalidate
+        (submit)="enviar($event)">
+        <div class="col-md-12">
+            <label for="texto" class="form-label">Texto del anuncio</label>
+            <textarea
+              class="form-control is-valid"
+              id="texto"
+              formControlName="textoAnuncio"
+              rows="3"
+            ></textarea>
+            <div
+              *ngIf="hasErrors('textoAnuncio', 'required')"
+              id="validationServer03Feedback"
+              class="invalid-feedback"
+            >
+              Por favor ingrese el texto del anuncio.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Actualizar Texto</button>
+</form>

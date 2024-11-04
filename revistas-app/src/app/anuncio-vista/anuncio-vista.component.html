@@ -1,5 +1,5 @@
 @if(estado){
-<div class="centrar">
+<div [ngClass]="{'centrar':!editar, 'centrar2':editar}">
   <div [ngClass]="{'card': !editar}">
     <div class="card-body text-center">
       @if(error){
@@ -28,7 +28,7 @@
         <button (click)="cancelar()"  class="btn btn-outline-success">Cancelar anuncio</button>
       @if(!admin){
       <a
-        [routerLink]="['/editar-anuncio', anuncio.id]"
+        [routerLink]="['/anunciador/editarAnuncio/',anuncio.id]"
         class="btn btn-outline-primary"
         >Editar anuncio</a
       >
@@ -37,4 +37,5 @@
     </div>
   </div>
 </div>
+<router-outlet></router-outlet>
 }

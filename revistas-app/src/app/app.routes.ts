@@ -8,6 +8,7 @@ import { NavAdminComponent } from './nav-admin/nav-admin.component';
 import { FormCompraAnuncioComponent } from './form-compra-anuncio/form-compra-anuncio.component';
 import { CarteraComponent } from './cartera/cartera.component';
 import { AnunciosVigentesVistaComponent } from './anuncios-vigentes-vista/anuncios-vigentes-vista.component';
+import { AnuncioUpdateComponent } from './anuncio-update/anuncio-update.component';
 
 export const routes: Routes = [
     //canActivate: [authGuard]
@@ -35,6 +36,11 @@ export const routes: Routes = [
                 path: 'recargarSaldo',
                 title: 'Recargar Saldo',
                 component: CarteraComponent
+            },
+            {
+                path: 'editarAnuncio/:codigo',
+                title: 'Actualizar Anuncio',
+                component: AnuncioUpdateComponent
             },
             {
                 path: 'anunciosVigentes',

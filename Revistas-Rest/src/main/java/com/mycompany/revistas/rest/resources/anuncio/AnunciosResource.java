@@ -4,6 +4,7 @@
  */
 package com.mycompany.revistas.rest.resources.anuncio;
 
+import com.mycompany.revistas.rest.backend.anuncio.ActualizarAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.Anuncio;
 import com.mycompany.revistas.rest.backend.anuncio.AnuncioDTO;
 import com.mycompany.revistas.rest.backend.anuncio.AnunciosList;
@@ -13,6 +14,7 @@ import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioRead;
 import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioUpdate;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
@@ -28,8 +30,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,7 +110,7 @@ public class AnunciosResource {
     }
     
     @Path("{id}")
-    @PATCH
+    @DELETE
     public Response desactivarAnuncio(@PathParam("id") int id){
         try {
             AnuncioUpdate a = new AnuncioUpdate();
@@ -139,4 +139,57 @@ public class AnunciosResource {
         };
         return Response.ok(fileStream, MediaType.APPLICATION_OCTET_STREAM).build();
     }
+    
+    @Path("/video")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarLinkVideo(@Context HttpHeaders header,Anuncio anuncio){
+        try {
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            ActualizarAnuncio a = new ActualizarAnuncio(token, anuncio);
+            a.actualizarVideo();
+            return Response.ok().build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .build();
+        }
+    }
+    
+    @Path("/imagen")
+    @PUT
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response actualizarImagen(@Context HttpHeaders header,
+            @FormDataParam("fileObject") FormDataBodyPart bodyPart,
+            @FormDataParam("fileObject") InputStream uploadedInputStream,
+            @FormDataParam("fileObject") FormDataContentDisposition fileDetails,
+            @FormDataParam("id") int id){
+        try {
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            ActualizarAnuncio a = new ActualizarAnuncio(token, uploadedInputStream, id);
+            a.actualizarImagen();
+            return Response.ok().build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .build();
+        }
+    }
+    
+    @Path("/texto")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarTexto(@Context HttpHeaders header, Anuncio anuncio){
+        try {
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            ActualizarAnuncio a = new ActualizarAnuncio(token, anuncio);
+            a.actualizarTexto();
+            return Response.ok().build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .build();
+        }
+    }
+    
 }

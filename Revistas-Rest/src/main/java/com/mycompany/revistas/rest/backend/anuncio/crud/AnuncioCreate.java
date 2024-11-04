@@ -69,8 +69,8 @@ public class AnuncioCreate {
     }
 
     private void subirAnuncioTextoEImagen() throws DatosUsuarioException {
-        String statement = "insert into anuncio(nombre_usuario, precio, fecha_pago, tipo_anuncio, vigencia, media, extension) "
-                + "values(?, ?, ?, ?, ?, ?, ?)";
+        String statement = "insert into anuncio(nombre_usuario, precio, fecha_pago, tipo_anuncio, vigencia, media, extension, texto) "
+                + "values(?, ?, ?, ?, ?, ?, ?, ?)";
         Connection coneccion = null;
         try {
             coneccion = PoolConnections.getInstance().getConnection();
@@ -84,6 +84,7 @@ public class AnuncioCreate {
             st.setInt(5, anuncio.getVigencia().dias());
             st.setBlob(6, anuncio.getImagen());
             st.setString(7, anuncio.getExtension());
+            st.setString(8, anuncio.getTextoAnuncio());
             st.executeUpdate();
             actualizarUsuario(coneccion);
         } catch (SQLException | DatosInvalidosException e) {

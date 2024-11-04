@@ -134,7 +134,7 @@ export class FormCompraAnuncioComponent implements OnInit {
       formData.append('vigencia', this.anuncio.vigencia);
       formData.append('fecha', this.anuncio.fecha);
       formData.append('texto', this.anuncio.texto);
-
+      formData.append('video', this.anuncio.video);
       const fileObject = this.anuncioForm.get('imagen')?.value;
       if (fileObject) {
         formData.append('fileObject', fileObject, fileObject.name);

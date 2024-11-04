@@ -63,13 +63,15 @@ public class ValidadorAnuncio {
             anuncio.setVigencia(Vigencia.valueOf(datosAnuncio.getVigencia()));
             anuncio.setUrlVideo(datosAnuncio.getVideo());
             anuncio.setTextoAnuncio(datosAnuncio.getTexto());
-            anuncio.setExtension(datosAnuncio.getInfo().getMediaType().toString());
+            if (anuncio.getTipo() == TipoAnuncio.TEXTO_E_IMAGEN) {
+                anuncio.setExtension(datosAnuncio.getInfo().getMediaType().toString());
+            }
             anuncio.setImagen(datosAnuncio.getImagen());
             if (!anuncio.esAnuncioValido()) {
                 throw new DatosUsuarioException("porfavor ingrese los datos correctamente" + (anuncio.getImagen() == null));
             }
         } catch (DateTimeParseException  | NullPointerException | IllegalArgumentException e) {
-            throw new DatosUsuarioException("Por favor ingrese los datos correctamente" + e.toString());
+            throw new DatosUsuarioException("Por favor ingrese los datos correctamente");
         }
     }
 

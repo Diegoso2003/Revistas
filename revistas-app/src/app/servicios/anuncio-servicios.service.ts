@@ -44,4 +44,8 @@ export class AnuncioServiciosService {
   obtenerImagen(id: number): Observable<any> {
     return this._http.get(`${this.url}/imagen/${id}`, { responseType: 'blob' });
   }
+
+  cancelarAnuncio(id: number): Observable<any> {
+    return this._http.delete(`${this.url}/${id}`, { headers: this.getAuthHeaders() });
+  }
 }

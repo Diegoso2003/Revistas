@@ -1,7 +1,11 @@
 @if(estado){
 <div class="centrar">
-  <div class="card">
+  <div [ngClass]="{'card': !editar}">
     <div class="card-body text-center">
+      @if(error){
+      <h5 class="card-title">Error</h5>
+      <p class="card-text">{{ mensaje }}</p>
+      }
       <h5 class="card-title">Anuncio</h5>
       <p class="card-text">Precio: {{ anuncio.precio | currency : "Q" }}</p>
       <p class="card-text">Fecha de compra: {{ anuncio.fecha }}</p>
@@ -20,13 +24,15 @@
       } @case('VIDEO'){
       <app-video [url]="anuncio.urlVideo"></app-video>
       } }
-      <button (click)="cancelar()"  class="btn btn-outline-success">Cancelar anuncio</button>
+      @if(!editar){
+        <button (click)="cancelar()"  class="btn btn-outline-success">Cancelar anuncio</button>
       @if(!admin){
       <a
         [routerLink]="['/editar-anuncio', anuncio.id]"
         class="btn btn-outline-primary"
         >Editar anuncio</a
       >
+      }
       }
     </div>
   </div>

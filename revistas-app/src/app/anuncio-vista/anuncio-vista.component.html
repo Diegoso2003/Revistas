@@ -15,7 +15,7 @@
       </p>
       <p class="card-text">ID del anuncio: {{ anuncio.id }}</p>
       @if(admin){
-      <p class="card-text">Usuario que lo subio: {{ anuncio.usuario }}</p>
+      <p class="card-text">Usuario que lo subio: {{ anuncio.nombreUsuario }}</p>
       } @switch (anuncio.tipo) { @case('TEXTO'){
       <p class="card-text">Texto: {{ anuncio.textoAnuncio }}</p>
       } @case('TEXTO_E_IMAGEN'){

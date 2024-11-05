@@ -5,19 +5,27 @@ import { TipoAnuncioPipe } from '../pipes/tipo-anuncio.pipe';
 import { VigenciaPipe } from '../pipes/vigencia.pipe';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { VideoComponent } from '../video/video.component';
-import { ImagenComponent } from "../imagen/imagen.component";
+import { ImagenComponent } from '../imagen/imagen.component';
 import { AnuncioServiciosService } from '../servicios/anuncio-servicios.service';
 
 @Component({
   selector: 'app-anuncio-vista',
   standalone: true,
-  imports: [CurrencyPipe, TipoAnuncioPipe, VigenciaPipe, RouterLink, VideoComponent, ImagenComponent, NgClass, RouterOutlet],
+  imports: [
+    CurrencyPipe,
+    TipoAnuncioPipe,
+    VigenciaPipe,
+    RouterLink,
+    VideoComponent,
+    ImagenComponent,
+    NgClass,
+    RouterOutlet,
+  ],
   templateUrl: './anuncio-vista.component.html',
-  styleUrl: './anuncio-vista.component.css'
+  styleUrl: './anuncio-vista.component.css',
 })
 export class AnuncioVistaComponent {
-
-  @Input({required: true}) 
+  @Input({ required: true })
   anuncio!: Anuncio;
 
   @Input()
@@ -33,16 +41,20 @@ export class AnuncioVistaComponent {
   router: Router = inject(Router);
 
   cancelar() {
-    this.anuncioservice.cancelarAnuncio(this.anuncio.id).subscribe(
-      {
-        next: () => {
-          this.router.navigate(['/anunciador/anunciosVigentes']);
-        },
-        error: (error) => {
-          console.error(error);
-          this.error = true;
-          this.mensaje = 'Error al cancelar el anuncio intente mas tarde';
-        }
-      });
+    this.anuncioservice.cancelarAnuncio(this.anuncio.id).subscribe({
+      next: () => {
+        const currentUrl = this.router.url;
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate([currentUrl]);
+          });
+      },
+      error: (error) => {
+        console.error(error);
+        this.error = true;
+        this.mensaje = 'Error al cancelar el anuncio intente mas tarde';
+      },
+    });
   }
 }

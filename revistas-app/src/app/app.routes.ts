@@ -9,6 +9,8 @@ import { FormCompraAnuncioComponent } from './form-compra-anuncio/form-compra-an
 import { CarteraComponent } from './cartera/cartera.component';
 import { AnunciosVigentesVistaComponent } from './anuncios-vigentes-vista/anuncios-vigentes-vista.component';
 import { AnuncioUpdateComponent } from './anuncio-update/anuncio-update.component';
+import { PreciosUpdateComponent } from './precios-update/precios-update.component';
+import { GestionAnunciosComponent } from './gestion-anuncios/gestion-anuncios.component';
 
 export const routes: Routes = [
     //canActivate: [authGuard]
@@ -68,7 +70,25 @@ export const routes: Routes = [
     {
         path: 'administrador',
         title: 'Administrador',
-        component: NavAdminComponent
+        component: NavAdminComponent,
+        children: [
+            {
+                path: 'preciosAnuncios',
+                title: 'Precios Anuncios',
+                component: PreciosUpdateComponent
+            },
+            {
+                path:'gestionAnuncios',
+                title: 'Gestion Anuncios',
+                component: GestionAnunciosComponent
+            },
+            {
+                path: '',
+                redirectTo: 'preciosAnuncios',
+                pathMatch: 'full'    
+                },
+                { path: '**', redirectTo: 'preciosAnuncios' }
+        ]
     },
     {
     path: '',

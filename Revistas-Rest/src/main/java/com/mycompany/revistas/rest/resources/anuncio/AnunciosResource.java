@@ -30,8 +30,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
 import java.io.InputStream;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -187,6 +185,7 @@ public class AnunciosResource {
         } catch (DatosUsuarioException ex) {
             return Response.status(Response.Status.NOT_ACCEPTABLE)
                            .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .type(MediaType.APPLICATION_JSON)
                            .build();
         }
     }

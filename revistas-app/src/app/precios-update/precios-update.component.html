@@ -1,0 +1,45 @@
+<div class="row gap-2">
+    <div class="centrar">
+        <div class="card" style="width: 30rem; margin: auto;">
+          <div class="card-body">
+            <div *ngIf="error" id="validationServer03Feedback" style="color: red;" class="text-center">
+              {{mensajeError}}
+            </div>
+            <h5 class="card-title text-center">Precios de Anuncios</h5>
+            <form class="row g-3 justify-content-center" [formGroup]="preciosForm" novalidate (submit)="enviar($event)">
+              <div class="col-md-7">
+                <label for="validationServer01" class="form-label">Anuncio de texto {{precios.texto | currency: 'Q'}}</label>
+                <input type="number" class="form-control is-valid" id="validationServer01" value="Mark" formControlName="texto">
+              </div>
+              <div class="col-md-7">
+                <label for="validationServer03" class="form-label">Anuncio de texto e imagen {{precios.imagen | currency: 'Q'}}</label>
+                <input type="number" class="form-control is-valid" id="validationServer02" aria-describedby="validationServer03Feedback" formControlName="imagen">
+              </div>
+              <div class="col-md-7">
+                <label for="validationServer03" class="form-label">Anuncio de video {{precios.video | currency: 'Q'}}</label>
+                <input type="number" class="form-control is-valid" id="validationServer03" aria-describedby="validationServer03Feedback" formControlName="video">
+              </div>
+              <div class="col-md-7">
+                <label for="validationServer03" class="form-label">Vigencia de 1 dia {{precios.dia1 | currency: 'Q'}}</label>
+                <input type="number" class="form-control is-valid" id="validationServer04" aria-describedby="validationServer03Feedback" formControlName="dia1">
+              </div>
+              <div class="col-md-7">
+                <label for="validationServer03" class="form-label">Vigencia de 3 dias {{precios.dia3 | currency: 'Q'}}</label>
+                <input type="number" class="form-control is-valid" id="validationServer05" aria-describedby="validationServer03Feedback" formControlName="dia3">
+              </div>
+              <div class="col-md-7">
+                <label for="validationServer03" class="form-label">Vigencia de 1 semana {{precios.semana1 | currency: 'Q'}}</label>
+                <input type="number" class="form-control is-valid" id="validationServer06" aria-describedby="validationServer03Feedback" formControlName="semana1">
+              </div>
+              <div class="col-md-7">
+                <label for="validationServer03" class="form-label">Vigencia de 2 semanas {{precios.semana2 | currency: 'Q'}}</label>
+                <input type="number" class="form-control is-valid" id="validationServer07" aria-describedby="validationServer03Feedback" formControlName="semana2">
+              </div>
+              <div class="col-12 text-center">
+                <button class="btn btn-outline-success">Guardar Precios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>

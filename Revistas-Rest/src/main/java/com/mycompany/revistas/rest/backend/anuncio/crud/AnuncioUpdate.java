@@ -5,6 +5,7 @@
 package com.mycompany.revistas.rest.backend.anuncio.crud;
 
 import com.mycompany.revistas.rest.backend.anuncio.Anuncio;
+import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
 import com.mycompany.revistas.rest.backend.anuncio.TipoAnuncio;
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
@@ -92,6 +93,26 @@ public class AnuncioUpdate {
                 throw new DatosUsuarioException("No se pudo actualizat el anuncio");
             }
         } catch (SQLException e) {
+        }
+    }
+    
+    public void actualizarAnuncios(PreciosDTO precios) throws DatosUsuarioException{
+        String statement = "update precio_de_anuncios set texto = ?, texto_imagen = ?"
+                + " video = ?, dia_1 = ?, dia_3 = ?, semana_1 = ?, semana_2 = ?";
+        
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setDouble(1, precios.getTexto());
+            st.setDouble(2, precios.getImagen());
+            st.setDouble(3, precios.getVideo());
+            st.setDouble(4, precios.getDia1());
+            st.setDouble(5, precios.getDia3());
+            st.setDouble(6, precios.getSemana1());
+            st.setDouble(7, precios.getSemana2());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatosUsuarioException("No se pudo actualizar los anuncios intente mas tarde");
         }
     }
 }

@@ -1,38 +1,51 @@
 <nav class="navbar navbar-expand-lg header-black">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand">Revistas en linea</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Admin</a>
+          <li class="nav-item text-center">
+            <img src="/imagenes/cash-stack.svg" alt="revista" width="30" height="30">
+            <a class="nav-link active" aria-current="page" routerLink="/administrador/preciosAnuncios" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Gestion Precio Anuncios</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+          <li class="nav-item text-center">
+            <img src="/imagenes/file-earmark-pdf.svg" alt="revista" width="30" height="30">
+            <a class="nav-link" routerLink="/anunciador/subirAnuncio" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Gestion Revistas</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
+          <li class="nav-item dropdown text-center">
+            <img src="/imagenes/folder.svg" alt="revista" width="30" height="30">
+            <a class="nav-link dropdown-toggle"role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Reportes
             </a>
             <div class="reporte">
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" >Reporte 1</a></li>
+              <li><a class="dropdown-item" >Reporte 2</a></li>
+              <li><a class="dropdown-item" >Reporte 3</a></li>
             </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          <li class="nav-item text-center">
+            <img src="/imagenes/card-list.svg" alt="revista" width="30" height="30">
+            <a class="nav-link" aria-disabled="true" routerLink="/administrador/gestionAnuncios" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Gestion de Anuncios</a>
+          </li>
+          <li class="nav-item text-center">
+            <img src="/imagenes/person-circle.svg" alt="revista" width="30" height="30">
+          <a routerLink="" routerLinkActive="active" class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Actualizar Perfil
+          </a>
+          </li>
+          <li class="nav-item text-center">
+            <img src="/imagenes/box-arrow-in-right.svg" alt="revista" width="30" height="30">
+          <a routerLink="" routerLinkActive="active" class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Cerrar sesion
+          </a>
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>
+
+  <router-outlet></router-outlet>

@@ -8,7 +8,7 @@ export interface Anuncio {
     vigencia: Vigencia;
     fecha: Date | null;
     id: number;
-    usuario: string;
+    nombreUsuario: string;
     precio: number;
     extension: string;
 }

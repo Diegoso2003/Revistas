@@ -1,0 +1,9 @@
+<div class="row">
+    @for(anuncio of anunciosVigentes; track $index){
+    <app-anuncio-vista [anuncio]="anuncio" [admin]="true"></app-anuncio-vista>
+    } @empty {
+    <div class="centrar">
+      <h2>No hay anuncios vigentes</h2>
+    </div>
+    }
+  </div>

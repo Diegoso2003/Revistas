@@ -51,3 +51,14 @@
 html{
     background-color: aquamarine;
 }
+
+.alinear-izquierda {
+    display: flex;
+    justify-content: flex-start; /* Alinea a la izquierda */
+    /* justify-content: flex-end; */ /* Alinea a la derecha */
+  }
+
+  .alinear-derecha {
+    display: flex;
+    justify-content: flex-end;
+  }

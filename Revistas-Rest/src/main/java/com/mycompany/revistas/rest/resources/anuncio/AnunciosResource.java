@@ -7,6 +7,7 @@ package com.mycompany.revistas.rest.resources.anuncio;
 import com.mycompany.revistas.rest.backend.anuncio.ActualizarAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.Anuncio;
 import com.mycompany.revistas.rest.backend.anuncio.AnuncioDTO;
+import com.mycompany.revistas.rest.backend.anuncio.AnunciosDesplegables;
 import com.mycompany.revistas.rest.backend.anuncio.AnunciosList;
 import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
 import com.mycompany.revistas.rest.backend.anuncio.ValidadorAnuncio;
@@ -212,6 +213,8 @@ public class AnunciosResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerAnuncios(){
-        
+        AnunciosDesplegables d = new AnunciosDesplegables();
+        List<Anuncio> anuncios = d.obtenerAnunciosActivos();
+        return Response.ok(anuncios).build();
     }
 }

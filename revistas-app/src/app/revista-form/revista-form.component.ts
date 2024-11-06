@@ -3,11 +3,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Revista } from '../interfaces/revista';
 import { RevistasService } from '../servicios/revistas.service';
+import { AnuncioIzquierdaComponent } from '../anuncio-izquierda/anuncio-izquierda.component';
+import { AnuncioDerechaComponent } from '../anuncio-derecha/anuncio-derecha.component';
 
 @Component({
   selector: 'app-revista-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, AnuncioIzquierdaComponent, AnuncioDerechaComponent],
   templateUrl: './revista-form.component.html',
   styleUrl: './revista-form.component.css'
 })

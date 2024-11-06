@@ -207,5 +207,11 @@ public class AnunciosResource {
                            .build();
         }
     }
-    
+
+    @Path("/desplegarAnuncios")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerAnuncios(){
+        
+    }
 }

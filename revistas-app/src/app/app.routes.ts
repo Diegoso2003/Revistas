@@ -11,6 +11,7 @@ import { AnunciosVigentesVistaComponent } from './anuncios-vigentes-vista/anunci
 import { AnuncioUpdateComponent } from './anuncio-update/anuncio-update.component';
 import { PreciosUpdateComponent } from './precios-update/precios-update.component';
 import { GestionAnunciosComponent } from './gestion-anuncios/gestion-anuncios.component';
+import { RevistaFormComponent } from './revista-form/revista-form.component';
 
 export const routes: Routes = [
     //canActivate: [authGuard]
@@ -60,7 +61,25 @@ export const routes: Routes = [
     {
         path: 'editor',
         title: 'Editor',
-        component: NavEditorComponent
+        component: NavEditorComponent,
+        children:[
+            {
+                path: 'recargarSaldo',
+                title: 'Recargar Saldo',
+                component: CarteraComponent
+            },
+            {
+                path: 'subirRevista',
+                title: 'Subir Revista',
+                component: RevistaFormComponent
+            },
+            {
+                path: '',
+                redirectTo: 'subirRevista',
+                pathMatch: 'full'    
+                },
+                { path: '**', redirectTo: 'subirRevista' }
+        ]
     },
     {
         path: 'lector',

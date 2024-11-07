@@ -1,8 +1,14 @@
 <div class="centrar-derecha">
 <div class="card" style="width: 30rem;">
-    <div class="card-body">
-      <h5 class="card-title">Card Derecha</h5>
-      <p class="card-text">Contenido del card a la derecha.</p>
+    <div class="card-body text-center">
+      @switch (anuncio.tipo) { @case('TEXTO'){
+        <p class="card-text h5"> {{ anuncio.textoAnuncio }}</p>
+        } @case('TEXTO_E_IMAGEN'){
+        <app-imagen [id]="anuncio.id"></app-imagen>
+        <p class="card-text h5">{{ anuncio.textoAnuncio }}</p>
+        } @case('VIDEO'){
+        <app-video [url]="anuncio.urlVideo"></app-video>
+        } }
     </div>
   </div>
 </div>

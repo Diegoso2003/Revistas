@@ -12,6 +12,7 @@ import { AnuncioUpdateComponent } from './anuncio-update/anuncio-update.componen
 import { PreciosUpdateComponent } from './precios-update/precios-update.component';
 import { GestionAnunciosComponent } from './gestion-anuncios/gestion-anuncios.component';
 import { RevistaFormComponent } from './revista-form/revista-form.component';
+import { CarteraEditorComponent } from './cartera-editor/cartera-editor.component';
 
 export const routes: Routes = [
     //canActivate: [authGuard]
@@ -66,7 +67,7 @@ export const routes: Routes = [
             {
                 path: 'recargarSaldo',
                 title: 'Recargar Saldo',
-                component: CarteraComponent
+                component: CarteraEditorComponent
             },
             {
                 path: 'subirRevista',

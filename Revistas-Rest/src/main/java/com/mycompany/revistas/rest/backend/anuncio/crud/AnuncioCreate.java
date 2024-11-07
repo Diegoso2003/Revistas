@@ -5,6 +5,7 @@
 package com.mycompany.revistas.rest.backend.anuncio.crud;
 
 import com.mycompany.revistas.rest.backend.anuncio.Anuncio;
+import com.mycompany.revistas.rest.backend.anuncio.RegistroAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.TipoAnuncio;
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
 import com.mycompany.revistas.rest.backend.excepciones.DatosInvalidosException;
@@ -20,11 +21,14 @@ import java.sql.SQLException;
  * @author rafael-cayax
  */
 public class AnuncioCreate {
-    private final Anuncio anuncio;
+    private Anuncio anuncio;
     private Usuario usuario;
 
     public AnuncioCreate(Anuncio anuncio) {
         this.anuncio = anuncio;
+    }
+
+    public AnuncioCreate() {
     }
     
     public void subirAnuncio(Usuario usuario) throws DatosUsuarioException{
@@ -108,5 +112,13 @@ public class AnuncioCreate {
         }
         coneccion.commit();
         coneccion.setAutoCommit(true);
+    }
+
+    public void subirRegistro(RegistroAnuncio registro, Connection coneccion) throws SQLException {
+        String statement = "insert into registro_anuncio(ID_anuncio, url) values(?, ?)";
+        PreparedStatement st = coneccion.prepareStatement(statement);
+        st.setInt(1, registro.getIdAnuncio());
+        st.setString(2, registro.getUrl());
+        st.executeUpdate();
     }
 }

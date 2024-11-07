@@ -5,6 +5,9 @@ import { Revista } from '../interfaces/revista';
 import { RevistasService } from '../servicios/revistas.service';
 import { AnuncioIzquierdaComponent } from '../anuncio-izquierda/anuncio-izquierda.component';
 import { AnuncioDerechaComponent } from '../anuncio-derecha/anuncio-derecha.component';
+import { AnuncioServiciosService } from '../servicios/anuncio-servicios.service';
+import { Anuncio } from '../interfaces/anuncio';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-revista-form',
@@ -19,8 +22,15 @@ export class RevistaFormComponent implements OnInit {
   revistaForm!: FormGroup;
   categorias!: string[];
   revista!: Revista;
+  anuncios: Anuncio[] = [];
+  mostrarAnuncios: boolean = false;
+  anuncioDerecha!: Anuncio;
+  anuncioIzquierda!: Anuncio;
+  url!: string;
 
   private _revistaService = inject(RevistasService);
+  private _anunciosservice = inject(AnuncioServiciosService);
+  private router = inject(Router);
 
   constructor(formbuilder: FormBuilder) {
     this.revistaForm = formbuilder.group({
@@ -84,6 +94,7 @@ export class RevistaFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.url = this.router.url;
       this._revistaService.conseguirCategoria().subscribe({
         next: (categorias) => {
           this.categorias = categorias;
@@ -91,6 +102,27 @@ export class RevistaFormComponent implements OnInit {
         error: (error) => {
           this.error = true;
           this.mensajeError = 'Error al cargar las categorías';
+        }
+      });
+
+      this._anunciosservice.desplegarAnuncios().subscribe({
+        next: (anuncios: Anuncio[]) => {
+          
+          this.anuncios = anuncios;
+          const longitud = this.anuncios.length;
+          if (longitud > 0) {
+            this.mostrarAnuncios = true;
+            this.anuncioDerecha = this.anuncios[0];
+            if (longitud === 2) {
+              this.anuncioIzquierda = this.anuncios[1];
+            }else {
+              this.anuncioIzquierda = this.anuncios[0];
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Error al cargar los anuncios');
+          console.error(error);
         }
       });
   }

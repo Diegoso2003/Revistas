@@ -4,6 +4,7 @@ import { Precios } from '../interfaces/precios';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AnuncioCreate } from '../interfaces/anunciocreate';
 import { Anuncio } from '../interfaces/anuncio';
+import { registro } from '../interfaces/registro';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,13 @@ export class AnuncioServiciosService {
   actualizarVideo(anuncio: Anuncio): Observable<any> {
     const headers = this.getAuthHeaders();
     return this._http.put(`${this.url}/video`, anuncio, { headers });
+  }
+
+  desplegarAnuncios(): Observable<Anuncio[]> {
+    return this._http.get<Anuncio[]>(`${this.url}/desplegarAnuncios`);
+  }
+
+  subirRegistro(registro: registro): Observable<any> {
+    return this._http.post(`${this.url}/subirRegistro`, registro);
   }
 }

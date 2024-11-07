@@ -10,6 +10,8 @@ import com.mycompany.revistas.rest.backend.anuncio.AnuncioDTO;
 import com.mycompany.revistas.rest.backend.anuncio.AnunciosDesplegables;
 import com.mycompany.revistas.rest.backend.anuncio.AnunciosList;
 import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
+import com.mycompany.revistas.rest.backend.anuncio.Registro;
+import com.mycompany.revistas.rest.backend.anuncio.RegistroAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.ValidadorAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioRead;
 import com.mycompany.revistas.rest.backend.anuncio.crud.AnuncioUpdate;
@@ -216,5 +218,14 @@ public class AnunciosResource {
         AnunciosDesplegables d = new AnunciosDesplegables();
         List<Anuncio> anuncios = d.obtenerAnunciosActivos();
         return Response.ok(anuncios).build();
+    }
+    
+    @Path("/subirRegistro")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarAnuncio(RegistroAnuncio registro){
+        Registro r = new Registro(registro);
+        r.actualizarRegistro();
+        return Response.ok().build();
     }
 }

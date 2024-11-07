@@ -6,6 +6,7 @@ package com.mycompany.revistas.rest.backend.anuncio.crud;
 
 import com.mycompany.revistas.rest.backend.anuncio.Anuncio;
 import com.mycompany.revistas.rest.backend.anuncio.PreciosDTO;
+import com.mycompany.revistas.rest.backend.anuncio.RegistroAnuncio;
 import com.mycompany.revistas.rest.backend.anuncio.TipoAnuncio;
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
@@ -113,6 +114,29 @@ public class AnuncioUpdate {
             st.executeUpdate();
         } catch (SQLException e) {
             throw new DatosUsuarioException("No se pudo actualizar los anuncios intente mas tarde");
+        }
+    }
+    
+    public void actualizarContador(RegistroAnuncio registro){
+        String statement = "update anuncio set contador = 1 + contador where ID = ? and estado = ?";
+        Connection coneccion = null;
+        try {
+            coneccion = PoolConnections.getInstance().getConnection();
+            coneccion.setAutoCommit(false);
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setInt(1, registro.getIdAnuncio());
+            st.setBoolean(2, true);
+            st.executeUpdate();
+            AnuncioCreate a = new AnuncioCreate();
+            a.subirRegistro(registro, coneccion);
+            coneccion.commit();
+            coneccion.setAutoCommit(true);
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            try {
+                coneccion.rollback();
+            } catch (SQLException ex) {
+            }
         }
     }
 }

@@ -35,7 +35,7 @@ public class Revista {
     private double precio;
     private double precioBloqueo;
     private int numeroLikes;
-    private List<Integer> pdfs;
+    private List<Pdf> pdfs;
     private Set<String> etiquetas;
 
     public LocalDate getFecha() {
@@ -134,11 +134,11 @@ public class Revista {
         this.numeroLikes = numeroLikes;
     }
 
-    public List<Integer> getPdfs() {
+    public List<Pdf> getPdfs() {
         return pdfs;
     }
 
-    public void setPdfs(List<Integer> pdfs) {
+    public void setPdfs(List<Pdf> pdfs) {
         this.pdfs = pdfs;
     }
 

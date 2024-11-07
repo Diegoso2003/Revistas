@@ -6,6 +6,7 @@ package com.mycompany.revistas.rest.resources.editor;
 
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.revista.Revista;
+import com.mycompany.revistas.rest.backend.revista.RevistaLista;
 import com.mycompany.revistas.rest.backend.revista.SubirRevista;
 import com.mycompany.revistas.rest.backend.revista.crud.RevistasRead;
 import jakarta.ws.rs.Consumes;
@@ -83,5 +84,14 @@ public class RevistaResource {
                            .type(MediaType.APPLICATION_JSON)
                            .build();
         }
+    }
+    
+    @Path("/conseguirRevistas")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response conseguirRevistas(@Context HttpHeaders header){
+        RevistaLista lista = new RevistaLista();
+        String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+        List<Revista> revistas = lista.conseguirRevistas(token);
     }
 }

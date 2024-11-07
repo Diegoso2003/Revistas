@@ -1,3 +1,5 @@
+import { Pdf } from "./pdf";
+
 export interface Revista {
     id: number;
     nombre: string;
@@ -12,6 +14,6 @@ export interface Revista {
     precio: number;
     precioBloqueo: number;
     numeroLikes: number;
-    pdfs: number[];
+    pdfs: Pdf[];
     etiquetas: string[];
 }

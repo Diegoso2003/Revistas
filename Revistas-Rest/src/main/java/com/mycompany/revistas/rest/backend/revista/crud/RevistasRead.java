@@ -55,13 +55,14 @@ public class RevistasRead {
                 Revista revista = new Revista();
                 revista.setFecha(result.getDate("fecha").toLocalDate());
                 revista.setID(result.getInt("ID"));
+                revista.setNombre(result.getString("nombre"));
                 revista.setNombreEditor(result.getString("nombre_editor"));
                 revista.setNombreCategoria(result.getString("nombre_categoria"));
                 revista.setBloqueoComentario(result.getBoolean("bloqueo_comentario"));
                 revista.setBloqueoAnuncios(result.getBoolean("bloqueo_anuncios"));
                 revista.setDescripcion(result.getString("descripcion"));
                 revista.setPrecio(result.getDouble("precio"));
-                revista.setPrecioBloqueo(result.getDouble("precioBloqueo"));
+                revista.setPrecioBloqueo(result.getDouble("precio_bloqueo"));
                 revista.setBloqueoSuscripcion(result.getBoolean("bloqueo_suscripcion"));
                 revista.setNumeroLikes(result.getInt("numero_likes"));
                 obtenerPDFS(revista, coneccion);
@@ -76,6 +77,39 @@ public class RevistasRead {
             System.out.println(e.toString());
         }
         return revistas;
+    }
+    
+    public Revista conseguirRevistaPorID(int id){
+        Revista revista = new Revista();
+        String statement = "select * from revista where id = ?";
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setInt(1, id);
+            ResultSet result = st.executeQuery();
+            
+            if (result.next()) {
+                revista.setFecha(result.getDate("fecha").toLocalDate());
+                revista.setID(result.getInt("ID"));
+                revista.setNombre(result.getString("nombre"));
+                revista.setNombreEditor(result.getString("nombre_editor"));
+                revista.setNombreCategoria(result.getString("nombre_categoria"));
+                revista.setBloqueoComentario(result.getBoolean("bloqueo_comentario"));
+                revista.setBloqueoAnuncios(result.getBoolean("bloqueo_anuncios"));
+                revista.setDescripcion(result.getString("descripcion"));
+                revista.setPrecio(result.getDouble("precio"));
+                revista.setPrecioBloqueo(result.getDouble("precio_bloqueo"));
+                revista.setBloqueoSuscripcion(result.getBoolean("bloqueo_suscripcion"));
+                revista.setNumeroLikes(result.getInt("numero_likes"));
+                obtenerPDFS(revista, coneccion);
+                obtenerEtiquetas(revista, coneccion);
+                if (revista.isBloqueoAnuncios()) {
+                    validarBloqueo(revista, coneccion);
+                }
+            }
+        } catch (SQLException e) {
+        }
+        return revista;
     }
 
     private void obtenerPDFS(Revista revista, Connection coneccion) throws SQLException {

@@ -13,6 +13,8 @@ import { PreciosUpdateComponent } from './precios-update/precios-update.componen
 import { GestionAnunciosComponent } from './gestion-anuncios/gestion-anuncios.component';
 import { RevistaFormComponent } from './revista-form/revista-form.component';
 import { CarteraEditorComponent } from './cartera-editor/cartera-editor.component';
+import { RevistaSubidasVistaComponent } from './revista-subidas-vista/revista-subidas-vista.component';
+import { RevistaVistaEditorComponent } from './revista-vista-editor/revista-vista-editor.component';
 
 export const routes: Routes = [
     //canActivate: [authGuard]
@@ -73,6 +75,16 @@ export const routes: Routes = [
                 path: 'subirRevista',
                 title: 'Subir Revista',
                 component: RevistaFormComponent
+            },
+            {
+                path: 'revistasSubidas',
+                title: 'Revistas Subidas',
+                component: RevistaSubidasVistaComponent
+            },
+            {
+                path: 'administrarRevista/:id',
+                title: 'Administrar Revista',
+                component: RevistaVistaEditorComponent
             },
             {
                 path: '',

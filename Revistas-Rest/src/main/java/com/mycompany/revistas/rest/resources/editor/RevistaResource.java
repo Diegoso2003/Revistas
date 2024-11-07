@@ -5,6 +5,8 @@
 package com.mycompany.revistas.rest.resources.editor;
 
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
+import com.mycompany.revistas.rest.backend.revista.ActualizarBloqueo;
+import com.mycompany.revistas.rest.backend.revista.BloqueosRevista;
 import com.mycompany.revistas.rest.backend.revista.Revista;
 import com.mycompany.revistas.rest.backend.revista.RevistaLista;
 import com.mycompany.revistas.rest.backend.revista.SubirRevista;
@@ -12,7 +14,9 @@ import com.mycompany.revistas.rest.backend.revista.crud.RevistasRead;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
@@ -20,6 +24,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.io.InputStream;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -93,5 +99,32 @@ public class RevistaResource {
         RevistaLista lista = new RevistaLista();
         String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
         List<Revista> revistas = lista.conseguirRevistas(token);
+        return Response.ok(revistas).build();
+    }
+    
+    @Path("/conseguir/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response conseguirRevistaPorID(@PathParam("id") int id){
+        RevistasRead r = new RevistasRead();
+        Revista revista = r.conseguirRevistaPorID(id);
+        return Response.ok(revista).build();
+    }
+    
+    @Path("/bloqueos")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarBloqueos(@Context HttpHeaders header, BloqueosRevista bloqueos){
+        try {
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            ActualizarBloqueo a = new ActualizarBloqueo(bloqueos);
+            a.actualizarBloqueo(token);
+            return Response.ok().build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .type(MediaType.APPLICATION_JSON)
+                           .build();
+        }
     }
 }

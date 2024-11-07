@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Revista } from '../interfaces/revista';
 import { Observable } from 'rxjs';
+import { bloqueosRevista } from '../interfaces/bloqueosRevista';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,17 @@ export class RevistasService {
 
   conseguirCategoria(): Observable<string[]> {
     return this._http.get<string[]>(`${this.url}/categorias`);
+  }
+
+  conseguirRevistas(): Observable<Revista[]> {
+    return this._http.get<Revista[]>(`${this.url}/conseguirRevistas`, { headers: this.getAuthHeaders() });
+  }
+
+  conseguirRevista(id: number): Observable<Revista> {
+    return this._http.get<Revista>(`${this.url}/conseguir/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  actualizarBloqueos(bloqueos: bloqueosRevista): Observable<any> {
+    return this._http.put(`${this.url}/bloqueos`, bloqueos, { headers: this.getAuthHeaders() });
   }
 }

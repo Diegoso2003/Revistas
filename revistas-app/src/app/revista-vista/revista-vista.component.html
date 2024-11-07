@@ -1,1 +1,57 @@
-<p>revista-vista works!</p>
+<div class="centrar">
+  <div class="card">
+    <div class="card-body text-center">
+      <h5 class="card-title">Nombre de la revista: {{ revista.nombre }}</h5>
+      <p class="card-text">Categoria: {{ revista.nombreCategoria }}</p>
+      <p class="card-text">Fecha de carga: {{ revista.fecha }}</p>
+      <p class="card-text">
+        Descripcion de la revista: {{ revista.descripcion }}
+      </p>
+      <p class="card-text">etiquetas de la revista:</p>
+      <div class="d-flex flex-wrap gap-2">
+        @for(etiqueta of revista.etiquetas; track $index){
+        <span class="bg-light text-dark p-1 border border-secondary rounded">{{
+          etiqueta
+        }}</span>
+        }
+      </div>
+      @if(!editor){
+        <p class="card-text">Autor: {{ revista.nombreEditor }}</p>
+      }
+      <p class="card-text">Numero de likes: {{revista.numeroLikes}}</p>
+      @if(admin || editor){
+      <p class="card-text">ID de la revista: {{ revista.id }}</p>
+      <p class="card-text">
+        Precio bloqueo de anuncios por dia:
+        {{ revista.precioBloqueo | currency : "Q" }}
+      </p>
+      } @if(admin){
+      <p class="card-text">
+        Precio de la revista: {{ revista.precio | currency : "Q" }}
+      </p>
+      } @if(preview){ 
+        @if(admin){
+            <div class="col-12 text-center">
+                <button class="btn btn-outline-success">Gestionar Revista</button>
+            </div>
+        }
+        @if(editor){
+            <div class="col-12 text-center">
+                <button (click)="editarRevista()" class="btn btn-outline-success">Administrar Revista</button>
+            </div>
+        }
+        @if(lector && !revista.bloqueoSuscripcion){
+            <div class="col-12 text-center">
+                <button class="btn btn-outline-success">Suscribirse</button>
+            </div>
+        }
+      } @else {
+        @if(editor){
+          <app-bloqueo-revista-form [revista]="revista"></app-bloqueo-revista-form>
+          <app-compra-bloqueo-form></app-compra-bloqueo-form>
+          <app-revista-pdf-form></app-revista-pdf-form>
+        }
+      }
+    </div>
+  </div>
+</div>

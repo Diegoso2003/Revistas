@@ -8,7 +8,10 @@ import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.jwt_token.TokenJWT;
 import com.mycompany.revistas.rest.backend.revista.crud.RevistasRead;
 import com.mycompany.revistas.rest.backend.usuario.Usuario;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,11 +24,15 @@ public class RevistaLista {
     private boolean admin;
     private String statement;
     
-    public List<Revista> conseguirRevistas(String token) throws DatosUsuarioException{
-        admin = false;
-        validarUsuario(token);
-        listarAnuncios();
-        return revistas;
+    public List<Revista> conseguirRevistas(String token){
+        try {
+            admin = false;
+            validarUsuario(token);
+            listarRevistas();
+            return revistas;
+        } catch (DatosUsuarioException ex) {
+            return new LinkedList<>();
+        }
     }
 
     private void validarUsuario(String token) throws DatosUsuarioException {
@@ -36,15 +43,15 @@ public class RevistaLista {
                 statement = "select * from revista";
                 admin = true;
                 break;
-            case ANUNCIADOR:
-                statement = "select * from revista nombre_editor = ?";
+            case EDITOR:
+                statement = "select * from revista where nombre_editor = ?";
                 break;
             default:
                 throw new DatosUsuarioException("no tiene permisos");
         }
     }
 
-    private void listarAnuncios() throws DatosUsuarioException {
+    private void listarRevistas() throws DatosUsuarioException {
         RevistasRead datos = new RevistasRead();
         this.revistas = datos.obtenerRevistas(statement, admin, usuario.getNombre());
     }

@@ -1,1 +1,52 @@
-<p>bloqueo-revista-form works!</p>
+@if(error){
+<div class="alert alert-danger" role="alert">
+  {{ mensajeError }}
+</div>
+}
+
+@if(exito){
+<div class="alert alert-success" role="alert">
+  {{ mensajeExito }}
+</div>
+}
+
+<h5 class="card-title text-center">Bloqueos de la revista</h5>
+<form
+  class="row g-3 justify-content-center"
+  [formGroup]="revistaForm"
+  novalidate
+  (submit)="enviar($event)"
+>
+<div class="mb-7 form-check">
+    <div class="form-check">
+        <label for="validationServer01" class="form-check-label"
+        >
+        <input
+            type="checkbox"
+            class="form-check-input"
+            id="validationServer01"
+            value="Mark"
+            formControlName="bloqueoSuscripcion"
+        />
+        bloqueo de suscripcion</label>
+    </div>
+    
+</div>
+  <div class="mb-7 form-check">
+    <label for="validationServer03" class="form-check-label"
+      >
+      <input
+      type="checkbox"
+      class="form-check-input"
+      id="validationServer03"
+      aria-describedby="validationServer03Feedback"
+      formControlName="bloqueoComentarios"
+    />
+      bloqueo de comentarios</label
+    >
+    
+  </div>
+  <div class="col-12 text-center">
+    <button class="btn btn-outline-success">Actualizar Bloqueo</button>
+  </div>
+</form>

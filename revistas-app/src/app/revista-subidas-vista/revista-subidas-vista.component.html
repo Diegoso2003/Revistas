@@ -1,1 +1,27 @@
-<p>revista-subidas-vista works!</p>
+<div class="d-flex justify-content-between align-items-center" style="background-color: aquamarine;">
+      
+    @if(mostrarAnuncios){
+      <app-anuncio-izquierda [anuncio]="anuncioIzquierda" [url]="url"></app-anuncio-izquierda>
+    }
+
+<div class="row">
+  @for(revista of revistas; track $index){
+  <app-revista-vista
+    [revista]="revista"
+    [admin]="false"
+    [editor]="true"
+    [lector]="false"
+    [preview]="true"
+  ></app-revista-vista>
+  } @empty {
+  <div class="centrar">
+    <h2>No hay revistas</h2>
+  </div>
+  }
+</div>
+
+@if(mostrarAnuncios){
+    <app-anuncio-derecha [anuncio]="anuncioDerecha" [url]="url"></app-anuncio-derecha>
+  }
+  
+</div>

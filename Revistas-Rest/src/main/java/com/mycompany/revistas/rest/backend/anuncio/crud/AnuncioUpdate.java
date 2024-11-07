@@ -98,7 +98,7 @@ public class AnuncioUpdate {
     }
     
     public void actualizarAnuncios(PreciosDTO precios) throws DatosUsuarioException{
-        String statement = "update precio_de_anuncios set texto = ?, texto_imagen = ?"
+        String statement = "update precio_de_anuncios set texto = ?, texto_imagen = ?,"
                 + " video = ?, dia_1 = ?, dia_3 = ?, semana_1 = ?, semana_2 = ?";
         
         try {

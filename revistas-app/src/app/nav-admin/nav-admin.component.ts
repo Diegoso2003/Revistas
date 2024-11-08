@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
+import { UsuarioServiciosService } from '../servicios/usuario-servicios.service';
 
 @Component({
   selector: 'app-nav-admin',
@@ -9,5 +10,11 @@ import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angul
   styleUrl: './nav-admin.component.css'
 })
 export class NavAdminComponent {
-  
+  private _usuarioservice = inject(UsuarioServiciosService);
+  private router = inject(Router);
+
+  cerrarSesion() {
+    this._usuarioservice.logout();
+    this.router.navigate(['/inicio']);
+  }
 }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
+import { UsuarioServiciosService } from '../servicios/usuario-servicios.service';
 
 @Component({
   selector: 'app-nav-editor',
@@ -10,5 +11,11 @@ import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './nav-editor.component.css'
 })
 export class NavEditorComponent {
+  private _usuarioservice = inject(UsuarioServiciosService);
+  private router = inject(Router);
 
+  cerrarSesion() {
+    this._usuarioservice.logout();
+    this.router.navigate(['/inicio']);
+  }
 }

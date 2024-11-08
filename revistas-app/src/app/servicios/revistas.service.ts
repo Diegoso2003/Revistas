@@ -60,4 +60,8 @@ export class RevistasService {
   subirNuevoNumero(formdata: FormData): Observable<any> {
     return this._http.post(`${this.url}/nuevoNumero`, formdata, { headers: this.getAuthHeaders() });
   }
+
+  obtenerPDF(id: number): Observable<any> {
+    return this._http.get(`${this.url}/pdf/${id}`, { responseType: 'blob' });
+  }
 }

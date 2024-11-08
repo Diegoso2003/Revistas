@@ -20,10 +20,12 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.StreamingOutput;
 import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
@@ -168,5 +170,22 @@ public class RevistaResource {
                            .type(MediaType.APPLICATION_JSON)
                            .build();
         }
+    }
+    
+    @Path("/pdf/{id}")
+    @GET
+    public Response conseguirImagen(@PathParam("id") int id){
+        RevistasRead anuncio = new RevistasRead();
+        InputStream stream = anuncio.conseguirPDF(id);
+        StreamingOutput fileStream = (java.io.OutputStream output) -> {
+            try {
+                byte[] data = stream.readAllBytes();
+                output.write(data);
+                output.flush();
+            } catch (Exception e) {
+                throw new WebApplicationException("File Not Found !!");
+            }
+        };
+        return Response.ok(fileStream, MediaType.APPLICATION_OCTET_STREAM).build();
     }
 }

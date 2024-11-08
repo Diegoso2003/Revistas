@@ -11,6 +11,7 @@ import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.revista.Pdf;
 import com.mycompany.revistas.rest.backend.revista.Revista;
 import com.mycompany.revistas.rest.backend.usuario.Usuario;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -227,6 +228,22 @@ public class RevistasRead {
 
     public double getPrecio() {
         return precio;
+    }
+
+    public InputStream conseguirPDF(int id) {
+        String statement = "select archivo from pdf where ID_pdf = ?";
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setInt(1, id);
+            ResultSet result = st.executeQuery();
+            if (result.next()) {
+                InputStream pdf = result.getBinaryStream("archivo");
+                return pdf;
+            }
+        } catch (Exception e) {
+        }
+        return null;
     }
     
     

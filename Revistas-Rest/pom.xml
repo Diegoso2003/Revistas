@@ -105,6 +105,20 @@
             <version>0.11.5</version> <!-- o usa otra librería JSON si prefieres -->
         </dependency>
 
+        <dependency>
+        <groupId>net.sf.jasperreports</groupId>
+        <artifactId>jasperreports</artifactId>
+        <version>7.0.0</version>
+    </dependency>
+
+    <!-- JasperReports PDF Export Library -->
+    <dependency>
+        <groupId>net.sf.jasperreports</groupId>
+        <artifactId>jasperreports-pdf</artifactId>
+        <version>7.0.0</version>
+    </dependency>
+
+    
     </dependencies>
     
     <build>

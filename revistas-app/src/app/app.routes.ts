@@ -15,6 +15,7 @@ import { RevistaFormComponent } from './revista-form/revista-form.component';
 import { CarteraEditorComponent } from './cartera-editor/cartera-editor.component';
 import { RevistaSubidasVistaComponent } from './revista-subidas-vista/revista-subidas-vista.component';
 import { RevistaVistaEditorComponent } from './revista-vista-editor/revista-vista-editor.component';
+import { FormReportePagosComponent } from './form-reporte-pagos/form-reporte-pagos.component';
 
 export const routes: Routes = [
     //canActivate: [authGuard]
@@ -85,6 +86,11 @@ export const routes: Routes = [
                 path: 'administrarRevista/:id',
                 title: 'Administrar Revista',
                 component: RevistaVistaEditorComponent
+            },
+            {
+                path: 'reportePago',
+                title: 'Reporte de Pago',
+                component: FormReportePagosComponent
             },
             {
                 path: '',

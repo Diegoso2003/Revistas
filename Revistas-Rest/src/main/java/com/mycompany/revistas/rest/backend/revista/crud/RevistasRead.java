@@ -5,10 +5,14 @@
 package com.mycompany.revistas.rest.backend.revista.crud;
 
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
+import com.mycompany.revistas.rest.backend.dtos.ReportePago;
+import com.mycompany.revistas.rest.backend.dtos.ResultadoPago;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.revista.Pdf;
 import com.mycompany.revistas.rest.backend.revista.Revista;
+import com.mycompany.revistas.rest.backend.usuario.Usuario;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +27,7 @@ import java.util.Set;
  * @author rafael-cayax
  */
 public class RevistasRead {
+    private double precio;
 
     public List<String> conseguirCategoria() throws DatosUsuarioException {
         List<String> categorias = new LinkedList<>();
@@ -185,4 +190,44 @@ public class RevistasRead {
         }
         return d;
     }
+
+    public List<ResultadoPago> conseguirResultado(String statement, ReportePago reporte, Usuario usuario) {
+        List<ResultadoPago> resultado = new LinkedList<>();
+        this.precio = 0;
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setString(1, usuario.getNombre());
+            if (reporte.rangoFecha()) {
+                Date sqlDate = Date.valueOf(reporte.getFechaFin());
+                Date sql = Date.valueOf(reporte.getFechaInicio());
+                st.setDate(2, sqlDate);
+                st.setDate(3, sql);
+            }
+            if (reporte.tieneID() && reporte.rangoFecha()) {
+                st.setInt(4, reporte.getId());
+            } else if (reporte.tieneID()) {
+                st.setInt(2, reporte.getId());
+            }
+            ResultSet result = st.executeQuery();
+            while (result.next()) {
+                ResultadoPago r = new ResultadoPago();
+                r.setFechaPago(result.getDate("fecha_pago").toLocalDate());
+                r.setDias(result.getInt("dias_vigentes"));
+                r.setIdRevista(result.getInt("ID_revista_bloqueo"));
+                r.setPago(result.getDouble("pago"));
+                this.precio += r.getPago();
+                resultado.add(r);
+            }
+        } catch (Exception e) {
+        }
+        
+        return resultado;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+    
+    
 }

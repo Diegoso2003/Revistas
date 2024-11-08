@@ -1,1 +1,26 @@
-<p>compra-bloqueo-form works!</p>
+@if(error){
+    <div class="alert alert-danger" role="alert">
+      {{ mensajeError }}
+    </div>
+    }
+    <h5 class="card-title text-center">Compra Bloqueo de anuncios</h5>
+<form class="row g-3 justify-content-center" [formGroup]="bloqueoForm" novalidate (submit)="enviar($event)">
+    <div class="col-md-7">
+        <label for="validationServer01" class="form-label"
+          >Fecha del bloqueo</label
+        >
+        <input
+          type="date"
+          class="form-control is-valid"
+          id="validationServer01"
+          formControlName="fecha"
+        />
+      </div>
+    <div class="col-md-7">
+      <label for="validationServer03" class="form-label">Dias activo</label>
+      <input type="number" class="form-control is-valid" id="validationServer03" aria-describedby="validationServer03Feedback" formControlName="dias">
+    </div>
+    <div class="col-12 text-center">
+      <button class="btn btn-outline-success">Comprar Bloqueo</button>
+    </div>
+  </form>

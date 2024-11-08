@@ -5,6 +5,7 @@
 package com.mycompany.revistas.rest.backend.revista.crud;
 
 import com.mycompany.revistas.rest.backend.base_de_datos.PoolConnections;
+import com.mycompany.revistas.rest.backend.dtos.CompraBloqueo;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.revista.Revista;
 import com.mycompany.revistas.rest.backend.usuario.Usuario;
@@ -107,6 +108,42 @@ public class RevistaCreate {
         } catch (SQLException e) {
             
             throw new DatosUsuarioException("se ingreso un pdf invalido" + e.toString());
+        }
+    }
+    
+    public void activarBloqueo(CompraBloqueo bloqueo, Usuario usuario) throws DatosUsuarioException{
+        String statement = "update revista set bloqueo_anuncios = ? where ID = ?";
+        String statement2 = "update usuario set cartera = cartera - ? where nombre = ?";
+        String statement3 = "insert into registro_bloqueo_anuncio(ID_revista_bloqueo, fecha_pago, dias_vigentes, pago) "
+                + "values(?, ?, ?, ?)";
+        Connection coneccion = null;
+        try {
+            coneccion = PoolConnections.getInstance().getConnection();
+            coneccion.setAutoCommit(false);
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setBoolean(1, true);
+            st.setInt(2, bloqueo.getIdRevista());
+            st.executeUpdate();
+            PreparedStatement st2 = coneccion.prepareStatement(statement2);
+            st2.setDouble(1, bloqueo.getPrecio());
+            st2.setString(2, usuario.getNombre());
+            st2.executeUpdate();
+            PreparedStatement st3 = coneccion.prepareStatement(statement3);
+            Date sqlDate = Date.valueOf(bloqueo.getFecha());
+            st3.setInt(1, bloqueo.getIdRevista());
+            st3.setDate(2, sqlDate);
+            st3.setInt(3, bloqueo.getDias());
+            st3.setDouble(4, bloqueo.getPrecio());
+            st3.executeUpdate();
+            coneccion.commit();
+            coneccion.setAutoCommit(true);
+        } catch (SQLException e) {
+            System.out.println(e);
+            try {
+                coneccion.rollback();
+            } catch (Exception ex) {
+            }
+            throw new DatosUsuarioException("no se pudo comprar el bloqueo pruebe mas tarde");
         }
     }
 }

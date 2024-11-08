@@ -4,16 +4,17 @@
       <app-anuncio-izquierda [anuncio]="anuncioIzquierda" [url]="url"></app-anuncio-izquierda>
     }
 
+    <div class="centrar">
     <app-revista-vista
-    [admin]="false"
-    [editor]="true"
-    [lector]="false"
-    [preview]="false"
-    [revista]="revista"
+      [admin]="false"
+      [editor]="true"
+      [lector]="false"
+      [preview]="false"
+      [revista]="revista"
     ></app-revista-vista>
-
-    @if(mostrarAnuncios){
-        <app-anuncio-derecha [anuncio]="anuncioDerecha" [url]="url"></app-anuncio-derecha>
-      }
-      
   </div>
+
+  @if(mostrarAnuncios){
+    <app-anuncio-derecha [anuncio]="anuncioDerecha" [url]="url"></app-anuncio-derecha>
+  }
+</div>

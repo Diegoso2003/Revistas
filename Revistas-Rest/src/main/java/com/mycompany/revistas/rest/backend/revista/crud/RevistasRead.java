@@ -23,16 +23,15 @@ import java.util.Set;
  * @author rafael-cayax
  */
 public class RevistasRead {
-    
-    
-    public List<String> conseguirCategoria() throws DatosUsuarioException{
+
+    public List<String> conseguirCategoria() throws DatosUsuarioException {
         List<String> categorias = new LinkedList<>();
         String statement = "select * from categoria";
         try {
             Connection coneccion = PoolConnections.getInstance().getConnection();
             Statement st = coneccion.createStatement();
             ResultSet result = st.executeQuery(statement);
-            while(result.next()){
+            while (result.next()) {
                 String categoria = result.getString("nombre");
                 categorias.add(categoria);
             }
@@ -51,7 +50,7 @@ public class RevistasRead {
                 st.setString(1, nombre);
             }
             ResultSet result = st.executeQuery();
-            while(result.next()){
+            while (result.next()) {
                 Revista revista = new Revista();
                 revista.setFecha(result.getDate("fecha").toLocalDate());
                 revista.setID(result.getInt("ID"));
@@ -72,14 +71,14 @@ public class RevistasRead {
                 }
                 revistas.add(revista);
             }
-            
+
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
         return revistas;
     }
-    
-    public Revista conseguirRevistaPorID(int id){
+
+    public Revista conseguirRevistaPorID(int id) {
         Revista revista = new Revista();
         String statement = "select * from revista where id = ?";
         try {
@@ -87,7 +86,7 @@ public class RevistasRead {
             PreparedStatement st = coneccion.prepareStatement(statement);
             st.setInt(1, id);
             ResultSet result = st.executeQuery();
-            
+
             if (result.next()) {
                 revista.setFecha(result.getDate("fecha").toLocalDate());
                 revista.setID(result.getInt("ID"));
@@ -118,7 +117,7 @@ public class RevistasRead {
         PreparedStatement st = coneccion.prepareStatement(statement);
         st.setInt(1, revista.getID());
         ResultSet result = st.executeQuery();
-        while(result.next()){
+        while (result.next()) {
             Pdf pdf = new Pdf();
             pdf.setIdRevistaPrincipal(revista.getID());
             pdf.setNombre(result.getString("nombre"));
@@ -134,7 +133,7 @@ public class RevistasRead {
         PreparedStatement st = coneccion.prepareStatement(statement);
         st.setInt(1, revista.getID());
         ResultSet result = st.executeQuery();
-        while(result.next()){
+        while (result.next()) {
             String etiqueta = result.getString("nombre_etiqueta");
             etiquetas.add(etiqueta);
         }
@@ -152,9 +151,38 @@ public class RevistasRead {
             int diasActuales = result.getInt("dias_diferencia");
             if (diasActuales > diasVigentes) {
                 RevistaUpdate r = new RevistaUpdate();
+                r.desactivarBloqueo(revista);
             }
-        }else{
+        } else {
             revista.setBloqueoAnuncios(false);
+            RevistaUpdate r = new RevistaUpdate();
+            r.desactivarBloqueo(revista);
         }
+    }
+
+    public double conseguirPrecioBloqueo(int id) throws DatosUsuarioException {
+        double d = 0;
+        String statement = "select precio_bloqueo, bloqueo_anuncios from revista where ID = ?";
+        try {
+            Connection coneccion = PoolConnections.getInstance().getConnection();
+            PreparedStatement st = coneccion.prepareStatement(statement);
+            st.setInt(1, id);
+            ResultSet result = st.executeQuery();
+            if (result.next()) {
+                Revista revista = new Revista();
+                d = result.getDouble("precio_bloqueo");
+                revista.setPrecioBloqueo(d);
+                revista.setBloqueoAnuncios(result.getBoolean("bloqueo_anuncios"));
+                if (revista.isBloqueoAnuncios()) {
+                    validarBloqueo(revista, coneccion);
+                }
+                if (revista.isBloqueoAnuncios()) {
+                    throw new DatosUsuarioException("la revista ya tiene un bloqueo de anuncios activo");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return d;
     }
 }

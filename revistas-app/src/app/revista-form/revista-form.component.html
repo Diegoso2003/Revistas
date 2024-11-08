@@ -10,6 +10,11 @@
                 <div *ngIf="error" id="validationServer03Feedback" style="color: red;" class="text-center">
                   {{mensajeError}}
                 </div>
+                  @if(exito){
+                  <div class="alert alert-success" role="alert">
+                    {{ mensajeExito }}
+                  </div>
+                  }
                 <h5 class="card-title text-center">Creacion de revista</h5>
                 <form class="row g-3 justify-content-center" [formGroup]="revistaForm" novalidate (submit)="enviar($event)">
                   <div class="col-md-12">

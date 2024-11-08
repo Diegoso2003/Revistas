@@ -47,10 +47,16 @@
         }
       } @else {
         @if(editor){
+          <app-compra-bloqueo-form [revista]="revista"></app-compra-bloqueo-form>
           <app-bloqueo-revista-form [revista]="revista"></app-bloqueo-revista-form>
-          <app-compra-bloqueo-form></app-compra-bloqueo-form>
-          <app-revista-pdf-form></app-revista-pdf-form>
+          <app-revista-pdf-form [id]="revista.id"></app-revista-pdf-form>
         }
+
+        <div class="d-flex flex-wrap gap-2">
+          @for(pdf of revista.pdfs; track $index){
+          <app-pdf-button [pdf]="pdf"></app-pdf-button>
+          }
+        </div>
       }
     </div>
   </div>

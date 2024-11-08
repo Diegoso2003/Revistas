@@ -4,8 +4,10 @@
  */
 package com.mycompany.revistas.rest.resources.editor;
 
+import com.mycompany.revistas.rest.backend.dtos.CompraBloqueo;
 import com.mycompany.revistas.rest.backend.excepciones.DatosUsuarioException;
 import com.mycompany.revistas.rest.backend.revista.ActualizarBloqueo;
+import com.mycompany.revistas.rest.backend.revista.BloqueoRevista;
 import com.mycompany.revistas.rest.backend.revista.BloqueosRevista;
 import com.mycompany.revistas.rest.backend.revista.Revista;
 import com.mycompany.revistas.rest.backend.revista.RevistaLista;
@@ -92,6 +94,29 @@ public class RevistaResource {
         }
     }
     
+    @Path("/nuevoNumero")
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response subirNuevoNumero(
+            @Context HttpHeaders header,
+            @FormDataParam("fileObject") FormDataBodyPart bodyPart,
+            @FormDataParam("fileObject") InputStream uploadedInputStream,
+            @FormDataParam("fileObject") FormDataContentDisposition fileDetails,
+            @FormDataParam("idRevista") String id
+    ){
+        try {
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            SubirRevista s = new SubirRevista(token, id);
+            s.nuevoNumero(uploadedInputStream, fileDetails);
+            return Response.ok().build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .type(MediaType.APPLICATION_JSON)
+                           .build();
+        }
+    }
+    
     @Path("/conseguirRevistas")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -119,6 +144,23 @@ public class RevistaResource {
             String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
             ActualizarBloqueo a = new ActualizarBloqueo(bloqueos);
             a.actualizarBloqueo(token);
+            return Response.ok().build();
+        } catch (DatosUsuarioException ex) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("{\"mensaje\":\""+ex.getMessage()+"\"}")
+                           .type(MediaType.APPLICATION_JSON)
+                           .build();
+        }
+    }
+    
+    @Path("/compraBloqueo")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response comprarBloqueo(@Context HttpHeaders header, CompraBloqueo bloqueo){
+        try {
+            BloqueoRevista r = new BloqueoRevista(bloqueo);
+            String token = header.getHeaderString(HttpHeaders.AUTHORIZATION);
+            r.comprarBloqueo(token);
             return Response.ok().build();
         } catch (DatosUsuarioException ex) {
             return Response.status(Response.Status.NOT_ACCEPTABLE)

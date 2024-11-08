@@ -10,8 +10,6 @@ import com.mycompany.revistas.rest.backend.usuario.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import javax.crypto.SecretKey;
@@ -26,7 +24,7 @@ public class TokenJWT {
     private final SecretKey key = new SecretKeySpec(Base64.getDecoder().decode(claveSecreta), SignatureAlgorithm.HS256.getJcaName());
 
     public String generateAccessToken(String userId, String rol) {
-        long expirationTime = 900_000; 
+        long expirationTime = 2_700_000; 
         return Jwts.builder()
                 .setSubject(userId) 
                 .setIssuedAt(new Date())

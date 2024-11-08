@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Revista } from '../interfaces/revista';
 import { Observable } from 'rxjs';
 import { bloqueosRevista } from '../interfaces/bloqueosRevista';
+import { CompraBloqueo } from '../interfaces/compraBloqueo';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,13 @@ export class RevistasService {
 
   actualizarBloqueos(bloqueos: bloqueosRevista): Observable<any> {
     return this._http.put(`${this.url}/bloqueos`, bloqueos, { headers: this.getAuthHeaders() });
+  }
+
+  comprarBloqueo(bloqueos: CompraBloqueo): Observable<any> {
+    return this._http.post(`${this.url}/compraBloqueo`, bloqueos, { headers: this.getAuthHeaders() });
+  }
+
+  subirNuevoNumero(formdata: FormData): Observable<any> {
+    return this._http.post(`${this.url}/nuevoNumero`, formdata, { headers: this.getAuthHeaders() });
   }
 }

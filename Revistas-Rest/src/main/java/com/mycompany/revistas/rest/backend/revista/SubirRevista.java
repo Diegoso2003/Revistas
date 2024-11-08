@@ -17,6 +17,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
  * @author rafael-cayax
  */
 public class SubirRevista {
+
     private Revista revista;
     private Usuario usuario;
     private String token;
@@ -24,14 +25,14 @@ public class SubirRevista {
     public SubirRevista(Revista revista) {
         this.revista = revista;
     }
-    
-    public SubirRevista(String token, String id){
+
+    public SubirRevista(String token, String id) {
         this.token = token;
         revista = new Revista();
         revista.setID(Integer.parseInt(id));
     }
-    
-    public Revista subirDatosRevista(String token) throws DatosUsuarioException{
+
+    public Revista subirDatosRevista(String token) throws DatosUsuarioException {
         TokenJWT j = new TokenJWT();
         usuario = j.obtenerUsuario(token);
         validarRevista();
@@ -49,8 +50,8 @@ public class SubirRevista {
         RevistaCreate r = new RevistaCreate();
         r.subirRevista(revista, usuario);
     }
-    
-    public void subirPDF(InputStream archivo, FormDataContentDisposition fileDetails) throws DatosUsuarioException{
+
+    public void subirPDF(InputStream archivo, FormDataContentDisposition fileDetails) throws DatosUsuarioException {
         TokenJWT j = new TokenJWT();
         usuario = j.obtenerUsuario(token);
         try {
@@ -67,13 +68,22 @@ public class SubirRevista {
 
     private void validarPDF(InputStream archivo, FormDataContentDisposition fileDetails) throws DatosUsuarioException {
         if (archivo == null || fileDetails == null) {
-            throw new DatosUsuarioException("ingrese correctamente los datos de la revista");
+            throw new DatosUsuarioException("ingrese un pdf valido");
         }
-        
+
     }
 
     private void cargarPDF(InputStream archivo) throws DatosUsuarioException {
         RevistaCreate c = new RevistaCreate();
         c.subirPDF(revista, usuario, archivo);
+    }
+
+    public void nuevoNumero(InputStream archivo, FormDataContentDisposition fileDetails) throws DatosUsuarioException {
+        TokenJWT j = new TokenJWT();
+        usuario = j.obtenerUsuario(token);
+        validarPDF(archivo, fileDetails);
+        String nombre = fileDetails.getFileName();
+        revista.setNombre(nombre);
+        cargarPDF(archivo);
     }
 }

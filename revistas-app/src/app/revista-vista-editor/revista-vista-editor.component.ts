@@ -36,12 +36,40 @@ export class RevistaVistaEditorComponent implements OnInit{
     }
 
     this._revistaservice.conseguirRevista(id).subscribe({
-      next: (revista) => {
+      next: (revista: Revista) => {
         this.revista = revista;
+        console.log('Revista obtenida correctamente');
         if(revista){
+          console.log(revista);
           this.bloqueo = revista.bloqueoAnuncios;
         } else{
           this.router.navigate(['/editor/revistasSubidas']);
+        }
+
+        if(!this.bloqueo){
+          console.log('anuncios activos')
+          console.log(this.bloqueo);
+          this.url = this.router.url;
+          this._anunciosservice.desplegarAnuncios().subscribe({
+            next: (anuncios: Anuncio[]) => {
+              
+              this.anuncios = anuncios;
+              const longitud = this.anuncios.length;
+              if (longitud > 0) {
+                this.mostrarAnuncios = true;
+                this.anuncioDerecha = this.anuncios[0];
+                if (longitud === 2) {
+                  this.anuncioIzquierda = this.anuncios[1];
+                }else {
+                  this.anuncioIzquierda = this.anuncios[0];
+                }
+              }
+            },
+            error: (error) => {
+              console.error('Error al cargar los anuncios');
+              console.error(error);
+            }
+          });
         }
       },
       error: (error) => {
@@ -50,28 +78,7 @@ export class RevistaVistaEditorComponent implements OnInit{
       },
     });
 
-    if(!this.bloqueo){
-      this._anunciosservice.desplegarAnuncios().subscribe({
-        next: (anuncios: Anuncio[]) => {
-          
-          this.anuncios = anuncios;
-          const longitud = this.anuncios.length;
-          if (longitud > 0) {
-            this.mostrarAnuncios = true;
-            this.anuncioDerecha = this.anuncios[0];
-            if (longitud === 2) {
-              this.anuncioIzquierda = this.anuncios[1];
-            }else {
-              this.anuncioIzquierda = this.anuncios[0];
-            }
-          }
-        },
-        error: (error) => {
-          console.error('Error al cargar los anuncios');
-          console.error(error);
-        }
-      });
-    }
+    
 
   }
 }

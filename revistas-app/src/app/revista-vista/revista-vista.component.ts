@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { BloqueoRevistaFormComponent } from '../bloqueo-revista-form/bloqueo-revista-form.component';
 import { CompraBloqueoFormComponent } from '../compra-bloqueo-form/compra-bloqueo-form.component';
 import { RevistaPdfFormComponent } from '../revista-pdf-form/revista-pdf-form.component';
+import { PdfButtonComponent } from '../pdf-button/pdf-button.component';
 
 @Component({
   selector: 'app-revista-vista',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, BloqueoRevistaFormComponent, CompraBloqueoFormComponent, RevistaPdfFormComponent],
+  imports: [CommonModule, CurrencyPipe, BloqueoRevistaFormComponent, CompraBloqueoFormComponent, RevistaPdfFormComponent, PdfButtonComponent],
   templateUrl: './revista-vista.component.html',
   styleUrl: './revista-vista.component.css'
 })

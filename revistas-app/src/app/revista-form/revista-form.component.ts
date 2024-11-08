@@ -21,6 +21,8 @@ export class RevistaFormComponent implements OnInit {
   mensajeError: string = '';
   revistaForm!: FormGroup;
   categorias!: string[];
+  exito: boolean = false;
+  mensajeExito: string = '';
   revista!: Revista;
   anuncios: Anuncio[] = [];
   mostrarAnuncios: boolean = false;
@@ -64,15 +66,20 @@ export class RevistaFormComponent implements OnInit {
           next: () => {
             console.log('PDF subido correctamente');
             this.revistaForm.reset();
+            this.exito = true;
+            this.error = false;
+            this.mensajeExito = 'Revista subida correctamente';
           },
           error: (error) => {
             this.error = true;
             this.mensajeError = error.error.mensaje || 'Error al subir el PDF';
+            this.exito = false;
           }
         });
       },
       error: (error) => {
         this.error = true;
+        this.exito = false;
         this.mensajeError =  error.error.mensaje || 'Error al subir la revista';
       }
     });

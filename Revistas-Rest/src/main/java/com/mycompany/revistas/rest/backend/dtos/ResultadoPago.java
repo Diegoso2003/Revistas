@@ -12,9 +12,9 @@ import java.time.LocalDate;
  */
 public class ResultadoPago {
     private LocalDate fechaPago;
-    private int idRevista;
-    private int dias;
-    private double pago;
+    private Integer idRevista;
+    private Integer dias;
+    private Double pago;
 
     public LocalDate getFechaPago2() {
         return fechaPago;

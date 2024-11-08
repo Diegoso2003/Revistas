@@ -16,6 +16,9 @@ import { CarteraEditorComponent } from './cartera-editor/cartera-editor.componen
 import { RevistaSubidasVistaComponent } from './revista-subidas-vista/revista-subidas-vista.component';
 import { RevistaVistaEditorComponent } from './revista-vista-editor/revista-vista-editor.component';
 import { FormReportePagosComponent } from './form-reporte-pagos/form-reporte-pagos.component';
+import { adminGuard } from './guards/admin.guard';
+import { editorGuard } from './guards/editor.guard';
+import { anunciadorGuard } from './guards/anunciador.guard';
 
 export const routes: Routes = [
     //canActivate: [authGuard]
@@ -33,6 +36,7 @@ export const routes: Routes = [
         path: 'anunciador',
         title: 'Anunciador',
         component: NavAnunciadorComponent,
+        canActivateChild: [anunciadorGuard],
         children: [
             {
                 path: 'subirAnuncio',
@@ -66,6 +70,7 @@ export const routes: Routes = [
         path: 'editor',
         title: 'Editor',
         component: NavEditorComponent,
+        canActivateChild: [editorGuard],
         children:[
             {
                 path: 'recargarSaldo',
@@ -109,6 +114,7 @@ export const routes: Routes = [
         path: 'administrador',
         title: 'Administrador',
         component: NavAdminComponent,
+        canActivateChild: [adminGuard],
         children: [
             {
                 path: 'preciosAnuncios',
